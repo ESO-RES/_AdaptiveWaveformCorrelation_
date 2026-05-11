@@ -2,7 +2,7 @@
 # Acoustic Witness Cloud
 ## Multi-Device Event Verification via Audio Phase Geometry
 
-<img width="1206" height="792" alt="image" src="https://github.com/user-attachments/assets/e5c3fa60-9bdb-4809-99b3-65f9d8ae49f7" />
+<img width="1545" height="1018" alt="image" src="https://github.com/user-attachments/assets/a4a97add-eb5b-49be-a2be-5fa77310b9df" />
 
 
 
