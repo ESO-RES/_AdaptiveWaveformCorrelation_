@@ -34,7 +34,6 @@ Now let’s explicitly “think about it” at that ultimate scale, using differ
 
 1.  Propagation speed is identical in vacuum Every frequency — 8.4 GHz radio, visible light, X-rays, gamma rays — travels at exactly the same speed c. → Travel time to the observable-universe edge is exactly the same (~46.5 billion years) regardless of frequency or wavelength.
 2.  Direction & distance estimates would still converge In the aWc framework, consistency across multiple observers comes from speed constraints + geometric triangle inequalities. Because speed is the same for all frequencies, a “cosmic witness cloud” (hypothetical array of receivers at different locations) would see the exact same arrival-time geometry no matter which narrow frequency band you measure. Direction and estimated distance (or emission-time constraints) would therefore be identical across bands — just as they are for a gunshot on Earth when you narrow-band different acoustic ranges.
-
 3.  The only thing that explodes is the cycle count (phase-wrapping ambiguity)
 •  8.4 GHz radio → ~1.23 × 10²⁸ cycles (as you stated).
 •  Visible light (~600 THz, green) → ~8.8 × 10³² cycles (roughly 71,400× more because each cycle is ~71,400× shorter). The integer-cycle ambiguity becomes absurdly larger at higher frequencies, but the physics of resolution stays identical: multi-observer geometry collapses the possibilities to one physical truth, exactly as the original GitHub repo demonstrates locally with sound.
