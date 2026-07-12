@@ -1,6 +1,6 @@
-# Acoustic Witness Cloud
+# Adaptive Waveform Correlation
 
-**Acoustic Witness Cloud (AWC)** is a research framework for conservative, physics-constrained inference from separately acquired acoustic recordings and related observations.
+**Adaptive Waveform Correlation (AWC)** is a research framework for conservative, physics-constrained inference from separately acquired acoustic recordings and related observations.
 
 The repository develops a layered mathematical approach for determining which event associations, timing models, integer ambiguities, candidate states, claims, and report classes remain compatible with declared measurements, uncertainties, perturbation domains, and physical assumptions.
 
