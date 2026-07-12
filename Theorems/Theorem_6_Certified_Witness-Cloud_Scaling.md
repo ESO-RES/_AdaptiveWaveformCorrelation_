@@ -1,4 +1,6 @@
-Theorem 6 — Certified Witness-Cloud Scaling 
+ # Theorem 6 — Certified Witness-Cloud Scaling
+
+Date: 7/12/2026
 
 # 1. Purpose
 
