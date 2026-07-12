@@ -1,6 +1,9 @@
  # Theorem 6 — Certified Witness-Cloud Scaling
 
-Date: 7/12/2026
+Document ID: AWC-THM-5
+Version: 2.0.0-beta1
+Date: 2026-07-12
+Status: Mathematical Draft
 
 # 1. Purpose
 
