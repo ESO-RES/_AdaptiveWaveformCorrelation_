@@ -34,7 +34,7 @@ The first-generation **theorem architecture is defined**, but the repository is 
 | Theorems 1–2 | Mathematical drafts |
 | Theorems 3–4 | Frozen 1.0 research documents |
 | Theorem 5 | Mathematical draft, version 2.0.0-beta1 |
-| Theorem 6 | Draft document; version/status metadata still needs to be formalized |
+| Theorem 6 | Mathematical draft, version 2.0.0-beta1 |
 | Reference implementation | Not yet included |
 | Automated tests | Not yet included |
 | Reproducible empirical validation | Not yet included |
