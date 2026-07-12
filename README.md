@@ -2,7 +2,7 @@
 
 > **A theorem-aligned research framework for conditional acoustic inference, finite ambiguity analysis, report closure, perturbation stability, end-to-end composition, and witness-cloud scaling.**
 
-**README revision:** 1.7  
+**README revision:** 1.9  
 **Architecture alignment date:** 2026-07-12  
 **Document status:** Research specification; non-operational
 
@@ -13,7 +13,7 @@ AWC is developed alongside the **Draft Acoustic Incident Reconstruction Specific
 > [!IMPORTANT]
 > This repository is a research specification. It is **not** a validated forensic standard, certified localization product, completed software implementation, or empirical performance study. It does not yet include a reference implementation, automated test suite, benchmark dataset, or reproducible validation pipeline.
 
-![AWC theorem-aligned framework overview](AWC_Framework.PNG)
+![AWC theorem-aligned framework overview](_AWC_Framework.PNG)
 
 ## Core principles
 
@@ -124,29 +124,46 @@ T2: finite branch-aware candidate construction
 
     Conservative outward-rounded domain:
     H_raw ⊆ Ĥ_raw
+
+    Theorem-defined consistency sets:
+    H_cons  = {h ∈ H_raw  : S_h ≠ ∅}
+    Ĥ_cons = {h ∈ Ĥ_raw : S_h ≠ ∅}
+
+    T2 proves:
+    Ĥ_cons = H_cons
                          │
                          ▼
-Candidate-state compatibility evaluation
+Certified candidate-state classification
+
+    Non-normative operational bookkeeping sets introduced in this README:
+
+    H_cert:
+    candidates for which h ∈ H_raw and S_h ≠ ∅
+    are both certified
+
+    H_work:
+    candidates not yet eliminated by certified exact-domain
+    exclusion or certified compatibility emptiness
 
     For every h ∈ Ĥ_raw:
     - certify exact T2 membership when possible;
-    - certify pruning when h ∉ H_raw is established;
-    - construct or enclose S_h for exact or unresolved candidates;
-    - place h in H_cons only when h ∈ H_raw and S_h ≠ ∅
+    - prune when h ∉ H_raw is certified;
+    - construct or conservatively enclose S_h;
+    - add h to H_cert only when h ∈ H_raw and S_h ≠ ∅
       are both certified;
-    - retain h only in Ĥ_cons while exact membership or
+    - retain h in H_work while exact membership or
       compatibility remains unresolved;
-    - certify pruning when S_h = ∅;
-    - preserve unresolved membership or compatibility decisions;
-    - record search-completeness status.
+    - prune only when exact analysis establishes S_h = ∅
+      or a valid certified outer enclosure of S_h is empty;
+    - preserve unresolved decisions and record
+      search-completeness status.
 
-    Exact and conservative consistency domains:
-    H_cons ⊆ H_raw ⊆ Ĥ_raw
-    H_cons ⊆ Ĥ_cons ⊆ Ĥ_raw
+    Certified-set relationships:
+    H_cert ⊆ H_cons = Ĥ_cons ⊆ H_work ⊆ Ĥ_raw
 
     With complete certified membership and compatibility
     classification:
-    Ĥ_cons = H_cons
+    H_cert = H_work = Ĥ_cons = H_cons
                          │
                          ▼
 T3: claim/report images, closure, and classification
@@ -166,26 +183,17 @@ T6: conditional witness-scaling bounds under a declared
     aggregation model
 ```
 
-Here, `Ĥ_cons` is the conservative consistency domain over `Ĥ_raw`. It contains every candidate not eliminated by a certified exact-membership or compatibility decision. It may therefore contain:
+`Ĥ_cons` retains its theorem-defined meaning; it is not an unresolved working set. Under T2’s declared definitions and assumptions, the theorem establishes `Ĥ_cons = H_cons`. This equality concerns the theorem-defined compatible-state sets; it does not imply that a finite-precision implementation has completed exact membership, compatibility, or search classification.
 
-1. exact consistent candidates in `H_cons`; and
-2. candidates whose exact raw-domain membership or compatibility remains unresolved.
+`H_cert` and `H_work` are operational bookkeeping sets used to describe incomplete certified computation:
 
-A candidate may be removed from `Ĥ_cons` only when either:
+- `H_cert` contains candidates already certified to satisfy exact raw-domain membership and nonempty compatibility.
+- `H_work` contains all candidates not yet eliminated by certified exact-domain exclusion or certified compatibility emptiness.
+- A failed numerical search, an empty inner approximation, or the absence of a computed point is not sufficient to prune a candidate.
 
-- exact T2 exclusion certifies that the candidate does not belong to `H_raw`; or
-- certified compatibility analysis establishes that its compatible state set is empty.
+These symbols are not currently theorem-defined interfaces and must not be attributed to T2 or T3 unless they are formally incorporated into those documents.
 
-The equality `Ĥ_cons = H_cons` is not implied merely by evaluating compatible state sets. It requires complete certified resolution of both:
-
-1. exact T2 membership for candidates introduced by conservative outward rounding; and
-2. exact compatibility or certified emptiness for candidates in the exact raw domain.
-
-Any unresolved membership or compatibility decision must remain explicitly represented.
-
-When `Ĥ_cons ≠ H_cons`, T3 may report only conservative claim-image enclosures or an unresolved closure status unless it is certified that every unresolved candidate contributes no report class outside the report-class image already established from `H_cons`.
-
-Exact report-level closure may be claimed only when the report-class image over `Ĥ_cons` is certified equal to the report-class image over `H_cons`, even if some candidate-level membership decisions remain unresolved.
+When `H_cert ≠ H_work`, T3 may report conservative claim-image enclosures or an unresolved closure status. Exact report-level closure may nevertheless be certified when the report-class image induced by `H_cert` is proven equal to the conservative report-class image induced by `H_work` at the declared resolution. Candidate-level classification may therefore remain incomplete even when report-level closure is complete.
 
 ## AIRS documentation
 
@@ -206,11 +214,14 @@ The examples are explanatory research guides, not validated case studies:
 
 The repository contains three current architecture figures:
 
-- [AWC Framework](AWC_Framework.PNG) — theorem-aligned conceptual and epistemic overview.
-- [AWC Computational Architecture](Layers/AWC_Computational_Architecture.PNG) — proposed flow of mathematical objects, candidate sets, numerical operations, and certificates.
-- [AWC Implementation Architecture](Layers/AWC_Implementation_Architecture.PNG) — proposed software-module, service, security, provenance, and orchestration design.
+- [AWC Framework](_AWC_Framework.PNG) — theorem-aligned conceptual and epistemic overview.
+- [AWC Computational Architecture](Layers/_AWC_Architecture_Layer.PNG) — proposed flow of mathematical objects, candidate sets, numerical operations, and certificates.
+- [AWC Implementation Architecture](Layers/_AWC_Implementation_Layer.PNG) — proposed software-module, service, security, provenance, and orchestration design.
 
 The figures are proposed architecture assets. They do not establish that depicted software modules, datasets, tests, performance results, reliability gains, or field validation currently exist.
+
+> [!WARNING]
+> The framework figure is the current semantic reference. The computational and implementation figures should be synchronized with the current exact/conservative T2 accounting and optional-T4 interface. Any use of `H_cert` or `H_work` should be identified as non-normative computational bookkeeping unless those symbols are formally added to the theorem interfaces.
 
 ### Distinguishing the three figures
 
@@ -240,7 +251,7 @@ Material under `research-notes/speculative/` is exploratory and non-normative. I
 AdaptiveWaveformCorrelation/
 ├── README.md
 ├── LICENSE
-├── AWC_Framework.PNG
+├── _AWC_Framework.PNG
 ├── Theorems/
 │   ├── Theorem_1_Conditional_Relative_Same_Event_Measurement_Formation.md
 │   ├── Theorem_2_Finite_Integer_Ambiguity_Under_Bounded_Admissible_Differences.md
@@ -257,8 +268,8 @@ AdaptiveWaveformCorrelation/
 │   ├── Concert_Reverberation.md
 │   └── Stadium_Analysis.md
 ├── Layers/
-│   ├── AWC_Computational_Architecture.PNG
-│   ├── AWC_Implementation_Architecture.PNG
+│   ├── _AWC_Architecture_Layer.PNG
+│   ├── _AWC_Implementation_Layer.PNG
 │   └── diagrams/legacy-conceptual/
 ├── diagrams/legacy-conceptual/
 │   └── _aWc_method_.jpg
@@ -290,9 +301,10 @@ A conclusion is supported only to the extent that the applicable assumptions, in
 4. Define T6 family-wise wrong-hypothesis survival, correct-hypothesis retention, false rejection, empty-set risk, and overall reliability quantities explicitly.
 5. Restrict any effective-witness-count result to a declared dependence model or externally certified interface.
 6. Standardize theorem metadata, notation, versioning, and cross-theorem interface definitions.
-7. Add primary-literature positioning, a bibliography, and `CITATION.cff`.
-8. Add editable figure sources and generation provenance.
-9. Implement a reference computational realization with automated tests and reproducible validation artifacts.
+7. Synchronize the computational and implementation figures with the framework’s current T2 candidate accounting, `H_cert`/`H_work` bookkeeping, and optional-T4 semantics.
+8. Normalize architecture-asset filenames and add editable figure sources, generation provenance, and an automated relative-link check.
+9. Add primary-literature positioning, a bibliography, and `CITATION.cff`.
+10. Implement a reference computational realization with automated tests and reproducible validation artifacts.
 
 ## Planned validation path
 
