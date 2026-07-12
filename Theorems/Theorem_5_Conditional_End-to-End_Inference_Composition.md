@@ -27,7 +27,7 @@ Repository Status:
 
 ---
 
-# 1. Purpose
+## 1. Purpose
 
 ## 1.1 Objective
 
