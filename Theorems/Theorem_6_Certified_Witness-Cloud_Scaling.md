@@ -5,7 +5,7 @@ Version: 2.0.0-beta1
 Date: 2026-07-12
 Status: Mathematical Draft
 ```
-# 1. Purpose
+## 1. Purpose
 
 ## 1.1 Objective
 
