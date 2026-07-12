@@ -2,4309 +2,2693 @@
 
 ```text
 Document ID: AWC-THM-5
-Version: 2.0.0-beta1
+Version: Mathematical Draft 3.6.0-beta1
 Date: 2026-07-12
-Status: Mathematical Draft
+Status: Internally frozen research draft
 
-Depends on:
+Required dependencies:
     • Theorem 1 — Conditional Relative Same-Event Measurement Formation
     • Theorem 2 — Finite Integer Ambiguity Under Bounded Admissible Differences
     • Theorem 3 — Conditional Resolution-Level Report Closure and Classification
-    • Theorem 4 — Conditional Perturbation-Stable Candidate and Report Class Recovery
 
-Optional Interface:
+Required bridge interface:
+    • Interface ID: AWC-IF-C23
+    • Version: 0.1
+    • Title: Candidate-State Compatibility Evaluation Interface
+    • Repository file: Interfaces/AWC-IF-C23_Candidate-State_Compatibility_Evaluation.md
+
+Optional consumed interfaces:
+    • Theorem 4 — Conditional Perturbation-Stable Candidate and Report-Class Recovery
     • E0 — Certified Raw Observation Interface
 
-Normative Status:
-    Mathematical Specification
+Normative status:
+    Non-normative research specification
 
-Validation Status:
-    Not Independently Validated
+Validation status:
+    Not independently validated
 
-Repository Status:
-    Mathematical Draft
+Change policy:
+    Reopen only for proof-breaking, dependency-breaking,
+    or semantic-contract defects.
+
+Freeze baseline:
+    This document is feature-complete for internal review.
+    Further schema, audit, serialization, implementation,
+    and conformance refinements belong in supporting specifications.
+
+Supersedes:
+    AWC-THM-5 version 3.5.0-beta1
 ```
 
 ---
 
 ## 1. Purpose
 
-## 1.1 Objective
+### 1.1 Objective
 
-Theorem 5 is the mathematical composition theorem of the Adaptive Waveform Correlation (AWC) inference framework.
+Theorem 5 states sufficient conditions under which valid outputs from Theorems 1–3, together with a declared candidate-state compatibility interface and an optional Theorem 4 stability interface, may be composed into one end-to-end mathematical inference contract.
 
-Unlike the preceding theorems, Theorem 5 does not introduce a new measurement model, ambiguity reduction method, report-classification method, or perturbation analysis. Instead, it establishes the mathematical conditions under which the certified conclusions of Theorems 1–4 may be composed into a single coherent inference while preserving their mathematical correctness, semantic interpretation, and certified guarantees.
+The theorem is exclusively a **composition and contract-preservation result**.
 
-Mathematical composition is not automatic. Independently correct theorems may fail to compose when they rely upon incompatible assumptions, incompatible mathematical objects, incompatible perturbation domains, incompatible interfaces, incompatible numerical semantics, or incompatible interpretations of shared mathematical symbols. Theorem 5 identifies sufficient conditions under which independently certified mathematical conclusions may be composed without introducing unsupported or stronger conclusions.
+It does not:
 
-Accordingly, this theorem establishes sufficient conditions for constructing a complete mathematical inference from declared inputs to declared outputs while preserving the logical integrity of every intermediate stage.
+- form measurements;
+- enumerate integer-cycle candidates;
+- construct compatible state sets;
+- optimize an objective;
+- select a preferred candidate;
+- construct claim or report images;
+- prove perturbation stability;
+- or establish witness-cloud reliability.
 
-Every conclusion remains conditional upon the assumptions explicitly stated within this theorem together with the verified assumptions of every consumed upstream theorem.
+Those functions belong to the theorem or interface that originally establishes them.
 
----
+The role of Theorem 5 is to verify that the consumed interfaces:
 
-## 1.2 Fundamental Principle
+- refer to the same mathematical objects;
+- use compatible units, coordinates, gauges, models, and domains;
+- preserve candidate and branch identity;
+- preserve representation types, certificate types, and result statuses;
+- preserve assumptions and limitations;
+- preserve completeness and unresolved-status information;
+- and do not silently strengthen one another.
 
-The governing principle of Theorem 5 is
-
-```text
-Composition preserves every established conclusion.
-
-Composition establishes no conclusion stronger than those justified
-by its assumptions.
-```
-
-Accordingly,
-
-```text
-upstream incompleteness
-cannot be repaired downstream;
-```
-
-```text
-candidate enumeration
-does not establish compatibility;
-```
-
-```text
-optimization
-does not establish truth;
-```
-
-```text
-report uniqueness
-does not establish candidate uniqueness;
-```
-
-```text
-candidate uniqueness
-does not establish physical truth;
-```
-
-```text
-local stability
-does not establish global identifiability;
-```
-
-```text
-mathematical exactness
-does not establish empirical correctness.
-```
-
-Every conclusion established by this theorem is restricted to the declared mathematical model, perturbation domain, assumptions, numerical semantics, and certified interfaces upon which it depends.
+When those conditions hold, the interfaces may be composed without changing the meaning or strength of any upstream conclusion.
 
 ---
 
-## 1.3 Scope
+### 1.2 Fundamental principle
 
-Theorem 5 concerns the composition of mathematical results only.
+The governing principle is:
+
+```text
+Valid composition preserves upstream conclusions.
+
+Valid composition establishes no stronger conclusion
+than the consumed interfaces establish separately.
+```
+
+Consequently:
+
+```text
+upstream incompleteness cannot be repaired by composition;
+```
+
+```text
+finite enumeration does not establish compatibility;
+```
+
+```text
+compatibility does not establish physical truth;
+```
+
+```text
+report-level closure does not establish candidate-level closure;
+```
+
+```text
+objective separation does not establish authenticity or causality;
+```
+
+```text
+perturbation stability does not establish global identifiability;
+```
+
+```text
+mathematical correctness does not establish empirical validity.
+```
+
+---
+
+### 1.3 Scope
+
+The theorem concerns mathematical interface composition.
 
 Its scope includes:
 
-- certified mathematical measurements;
-- finite candidate construction;
-- compatible candidate–state reasoning;
-- claim-value recovery;
-- report-image recovery;
-- optional score-based selection;
-- optional perturbation stability;
-- certified mathematical reporting.
+- measurement-interface identity;
+- candidate-domain identity;
+- branch and observation indexing;
+- state-set and constraint identity;
+- gauge and coordinate compatibility;
+- claim and report-map identity;
+- perturbation-domain compatibility;
+- representation-type, certificate-type, and result-status preservation;
+- search-completeness preservation;
+- unresolved-status preservation;
+- optional stability-interface incorporation;
+- and production of an auditable composition record and, when eligibility conditions hold, a successful composition certificate.
 
-The theorem does **not** establish:
+The theorem does not establish:
 
 - sensor correctness;
-- hardware performance;
-- preprocessing correctness;
 - calibration validity;
-- evidence authenticity;
+- preprocessing correctness;
+- source authenticity;
+- evidence integrity;
 - chain of custody;
-- forensic admissibility;
-- legal interpretation;
-- operational decision making;
-- empirical validity of the mathematical model.
-
-These subjects remain outside the scope of Theorem 5 unless incorporated through separate verified mathematical interfaces.
-
----
-
-## 1.4 Intended Composition
-
-The intended mathematical inference pipeline is
-
-```text
-Raw observations
-        │
-        ▼
-(Optional E0)
-
-        │
-        ▼
-Theorem 1
-
-Certified relative measurements
-
-        │
-        ▼
-Theorem 2
-
-Finite candidate construction
-
-        │
-        ▼
-Theorem 5
-
-Candidate-family composition
-
-Compatible candidate–state relation
-
-        │
-        ▼
-Theorem 3
-
-Claim-value recovery
-
-Report-image recovery
-
-        │
-        ▼
-(Optional Theorem 4)
-
-Score separation
-
-Selection
-
-Perturbation stability
-
-        │
-        ▼
-Certified mathematical inference
-```
-
-Each stage consumes only the certified mathematical outputs produced by the preceding stage.
-
-No stage may establish mathematical properties that have not already been established by an upstream theorem or proved within Theorem 5 itself.
-
----
-
-## 1.5 Mathematical Interfaces
-
-Composition is performed exclusively through explicitly declared mathematical interfaces.
-
-Every consumed theorem exposes typed mathematical outputs together with its assumptions, perturbation domain, exactness guarantees, semantic interpretation, and certified conclusions.
-
-Every interface is interpreted as a mathematical contract consisting of explicitly declared:
-
-- inputs;
-- outputs;
-- assumptions;
-- perturbation domains;
-- semantic meaning;
-- certified guarantees.
-
-No theorem may consume another theorem through:
-
-- implicit assumptions;
-- undocumented object correspondence;
-- undeclared model equivalence;
-- inferred semantic compatibility;
-- unstated perturbation relationships.
-
-Every composed conclusion shall therefore identify:
-
-- its consumed interfaces;
-- its mathematical domain;
-- its perturbation domain;
-- its semantic interpretation;
-- the assumptions required for its validity.
-
----
-
-## 1.6 Meaning of End-to-End
-
-Within this theorem, the phrase **end-to-end** has a precise mathematical meaning.
-
-When a certified raw-observation interface is available, the certified inference path is
-
-```text
-Raw observations
-        │
-        ▼
-Certified measurements
-        │
-        ▼
-Finite candidate construction
-        │
-        ▼
-Compatible candidate–state relation
-        │
-        ▼
-Claim-value image
-        │
-        ▼
-Report image
-```
-
-When preprocessing lies outside the scope of this theorem, the certified inference path begins at the declared inputs supplied to Theorem 1.
-
-End-to-end does **not** imply that every computational stage is exact.
-
-Rather, it means that every stage of the declared inference path has been mathematically certified under the assumptions explicitly established for that stage.
-
-An inference shall be described as **end-to-end** only when every required interface in the selected inference path has been established.
-
----
-
-## 1.7 Design Philosophy
-
-Theorem 5 intentionally separates mathematical properties that are frequently conflated.
-
-These include:
-
-- existence;
-- completeness;
-- exactness;
-- compatibility;
-- uniqueness;
-- optimization;
-- stability;
-- localization;
-- reporting.
-
-Each property requires its own assumptions.
-
-No mathematical property is inferred solely because another property has been established.
-
-Likewise, Theorem 5 preserves mathematical objects rather than replacing them.
-
-Whenever multiple mathematically valid candidates, compatible states, claim values, or report values remain, those complete mathematical objects remain the certified outputs unless additional assumptions justify stronger recovery conclusions.
-
-This separation ensures that every certified conclusion possesses an explicit mathematical justification and that no stronger interpretation is silently substituted.
-
----
-
-## 1.8 Interpretation
-
-The preceding principles describe why mathematical composition is possible.
-
-The remaining sections define the mathematical objects, assumptions, interfaces, supporting lemmas, and proofs required to establish that composition rigorously.
-
-Theorem 5 is a mathematical composition theorem.
-
-It specifies how independently certified mathematical results may be combined while preserving:
-
-- logical correctness;
-- type correctness;
-- interface compatibility;
-- exactness guarantees;
-- perturbation-domain restrictions;
-- declared model semantics.
-
-It is neither an optimization theorem nor a localization theorem by itself.
-
-Localization, classification, or any other application-specific interpretation arises only after the mathematical objects defined by this theorem are assigned application-specific meaning by the corresponding upstream theorems and declared claim mappings.
-
-Theorem 5 is intentionally conservative.
-
-Whenever multiple mathematically valid conclusions remain possible, every such conclusion is preserved unless additional assumptions justify a stronger result.
-
-Accordingly, this theorem favors mathematically complete recovery over premature uniqueness.
-
-The primary recovery objects, together with their mathematical definitions and recovery criteria, are introduced only after the mathematical objects and assumptions of the theorem have been formally established.
-
-Theorem 5 is the capstone theorem of the AWC mathematical framework.
-
-Its purpose is not to replace the conclusions of Theorems 1–4, but to provide the rigorous mathematical framework in which those independently certified conclusions may be composed into a single certified inference while preserving their individual assumptions, guarantees, meanings, and limitations.
-
-# 2. Mathematical Objects and Notation
-
-## 2.1 Purpose
-
-This section defines the mathematical objects consumed, constructed, and returned by Theorem 5.
-
-Unlike the preceding theorems, which introduce measurement models, ambiguity structures, report-classification procedures, or perturbation analyses, Theorem 5 operates primarily on mathematical objects produced by other certified theorems.
-
-Accordingly, every object defined herein serves one of the following purposes:
-
-- composition;
-- compatibility;
-- image construction;
-- report construction;
-- certified inference.
-
-Unless explicitly stated otherwise, every mathematical object introduced in this section is interpreted according to its declared type and shall not be assigned additional semantic meaning beyond that defined herein.
-
----
-
-## 2.2 General Conventions
-
-Throughout this theorem,
-
-- lowercase symbols denote individual mathematical objects;
-
-- uppercase symbols denote sets, mappings, or mathematical spaces;
-
-- superscripts distinguish certified approximation classes;
-
-- subscripts distinguish mathematical roles rather than numerical indices.
-
-The following superscripts are used throughout the theorem.
-
-```text
-exact     mathematically exact object
-
-−         certified inner approximation
-
-+         certified outer approximation
-```
-
-Whenever both inner and outer certified approximations exist,
-
-```text
-X⁻ ⊆ X_exact ⊆ X⁺
-```
-
-shall denote the corresponding certified enclosure.
-
-No enclosure implies equality unless explicitly established by theorem.
-
----
-
-## 2.3 Perturbation Domain
-
-Let
-
-```text
-U
-```
-
-denote the universe of admissible perturbation states considered by this theorem.
-
-Each element
-
-```text
-u ∈ U
-```
-
-represents one admissible realization of all perturbations declared by the consumed theorem interfaces.
-
-Whenever a theorem consumes only a subset of admissible perturbations, the corresponding perturbation domain shall be written
-
-```text
-U₁
-U₂
-U₃
-U₄
-```
-
-for Theorems 1–4 respectively.
-
-The composition domain of Theorem 5 is
-
-```text
-U₅ ⊆ U₁ ∩ U₂ ∩ U₃
-```
-
-and
-
-```text
-U₅ ⊆ U₄
-```
-
-whenever Theorem 4 is invoked.
-
-No conclusion established by Theorem 5 shall be interpreted outside its declared perturbation domain.
-
----
-
-## 2.4 Candidate Universe
-
-Let
-
-```text
-D
-```
-
-denote the certified finite candidate universe consumed by Theorem 5.
-
-Each
-
-```text
-h ∈ D
-```
-
-represents one admissible candidate hypothesis supplied through the certified interface of Theorem 2.
-
-For every admissible perturbation state,
-
-```text
-u ∈ U₅,
-```
-
-Theorem 2 provides the exact compatible candidate subset
-
-```text
-D_exact(u) ⊆ D.
-```
-
-Certified approximations may additionally be written
-
-```text
-D⁻(u)
-
-D⁺(u)
-```
-
-with
-
-```text
-D⁻(u) ⊆ D_exact(u) ⊆ D⁺(u).
-```
-
-Theorem 5 never enlarges the candidate universe beyond that permitted by its certified interfaces.
-
----
-
-## 2.5 Candidate–State Fibers
-
-For every candidate
-
-```text
-h ∈ D
-```
-
-and every perturbation state
-
-```text
-u ∈ U₅,
-```
-
-let
-
-```text
-Sₕ(u)
-```
-
-denote the compatible state fiber associated with candidate
-
-```text
-h.
-```
-
-Each fiber may be empty, singleton, or contain multiple mathematically compatible states.
-
-The collection
-
-```text
-{Sₕ(u) : h ∈ D}
-```
-
-forms the complete compatible-state family consumed by Theorem 5.
-
----
-
-## 2.6 Compatible Candidate–State Relation
-
-The principal recovery object of Theorem 5 is the compatible candidate–state relation
-
-```text
-K_exact(u).
-```
-
-It is defined by
-
-```text
-K_exact(u)
-
-= ⨆ₕ∈D_exact(u)
-    {h} × Sₕ(u),
-```
-
-where
-
-```text
-⨆
-```
-
-denotes the tagged disjoint union.
-
-Each element of
-
-```text
-K_exact(u)
-```
-
-has the form
-
-```text
-(h, θ),
-```
-
-where
-
-```text
-θ ∈ Sₕ(u).
-```
-
-Candidate identity is therefore preserved explicitly throughout the theorem.
-
-Certified approximations satisfy
-
-```text
-K⁻(u)
-
-⊆
-
-K_exact(u)
-
-⊆
-
-K⁺(u).
-```
-
----
-
-## 2.7 Claim Mapping
-
-Let
-
-```text
-G
-```
-
-denote the certified claim mapping.
-
-The mapping
-
-```text
-G
-```
-
-assigns every compatible candidate–state pair to its corresponding mathematical claim.
-
-Formally,
-
-```text
-G :
-
-K_exact(u)
-
-→
-
-Z_exact(u).
-```
-
-Theorem 5 assumes only that
-
-```text
-G
-```
-
-is well-defined on every compatible element supplied by the consumed theorem interfaces.
-
-No additional algebraic structure is assumed unless explicitly stated.
-
----
-
-## 2.8 Claim Image
-
-The exact claim image is
-
-```text
-Z_exact(u)
-
-=
-
-G[K_exact(u)].
-```
-
-Certified approximations satisfy
-
-```text
-Z⁻(u)
-
-⊆
-
-Z_exact(u)
-
-⊆
-
-Z⁺(u).
-```
-
-Whenever
-
-```text
-Z⁻(u)
-
-=
-
-Z⁺(u),
-```
-
-exact claim recovery follows under the assumptions established later in this theorem.
-
----
-
-## 2.9 Report Mapping
-
-Let
-
-```text
-ρ
-```
-
-denote the certified reporting map.
-
-The mapping
-
-```text
-ρ
-```
-
-projects mathematical claims onto the declared reporting resolution.
-
-Formally,
-
-```text
-ρ :
-
-Z_exact(u)
-
-→
-
-C_exact(u).
-```
-
-The reporting map may merge mathematically distinct claims whenever such distinctions are intentionally removed by the declared reporting resolution.
-
----
-
-## 2.10 Report Image
-
-The principal reported object is
-
-```text
-C_exact(u)
-
-=
-
-ρ[Z_exact(u)].
-```
-
-Certified approximations satisfy
-
-```text
-C⁻(u)
-
-⊆
-
-C_exact(u)
-
-⊆
-
-C⁺(u).
-```
-
-Whenever
-
-```text
-C⁻(u)
-
-=
-
-C⁺(u),
-```
-
-exact report recovery follows under the assumptions established later in this theorem.
-
----
-
-## 2.11 Recovery Objects
-
-Theorem 5 distinguishes three primary recovery objects.
-
-### Compatible candidate–state relation
-
-```text
-K_exact(u)
-```
-
-contains every mathematically compatible candidate and state.
-
----
-
-### Claim image
-
-```text
-Z_exact(u)
-```
-
-contains every mathematically distinguishable claim generated from the compatible relation.
-
----
-
-### Report image
-
-```text
-C_exact(u)
-```
-
-contains every reported conclusion after application of the declared reporting resolution.
-
-These objects represent progressively coarser mathematical descriptions of the same certified inference.
-
-No object replaces another.
-
-Each remains mathematically meaningful within its own interpretation.
-
----
-
-## 2.12 Exactness and Enclosure
-
-Throughout this theorem,
-
-```text
-exact
-```
-
-denotes mathematical equality with the corresponding recovery object.
-
-Inner and outer certified objects satisfy
-
-```text
-X⁻ ⊆ X_exact ⊆ X⁺.
-```
-
-Equality
-
-```text
-X⁻ = X⁺
-```
-
-does not hold automatically.
-
-Whenever equality is established,
-
-```text
-X⁻
-
-=
-
-X_exact
-
-=
-
-X⁺,
-```
-
-the corresponding recovery object is said to be **exactly recovered**.
-
-The precise conditions under which this occurs are established in the theorem statement and supporting lemmas.
-
----
-
-## 2.13 Interpretation
-
-This section defines only the mathematical objects manipulated by Theorem 5.
-
-No recovery guarantees, uniqueness properties, perturbation results, optimization properties, or localization conclusions are established here.
-
-Those results depend upon the assumptions, contracts, supporting lemmas, and proofs introduced in the subsequent sections of this theorem.
-
-# 3. Assumptions
-
-## 3.1 Purpose
-
-This section specifies the assumptions required for Theorem 5.
-
-Unlike the preceding theorems, which establish assumptions specific to measurement formation, ambiguity reduction, report construction, or perturbation stability, Theorem 5 establishes assumptions governing the valid composition of independently certified mathematical results.
-
-Every conclusion proved by Theorem 5 depends upon the assumptions stated herein together with the assumptions inherited from every consumed upstream theorem.
-
-No conclusion shall be interpreted outside the assumptions explicitly required for its proof.
-
----
-
-## 3.2 Assumption Categories
-
-The assumptions of Theorem 5 are organized into six categories.
-
-1. Domain assumptions;
-
-2. Interface assumptions;
-
-3. Candidate assumptions;
-
-4. Mapping assumptions;
-
-5. Composition assumptions;
-
-6. Optional recovery assumptions.
-
-Unless explicitly stated otherwise, every theorem statement within this document depends only upon the assumptions required for that statement.
-
-Optional recovery conclusions require additional assumptions beyond those of the principal composition theorem.
-
----
-
-## 3.3 Domain Assumptions
-
-### A1 — Common Perturbation Domain
-
-There exists a perturbation domain
-
-```text
-U₅ ⊆ U₁ ∩ U₂ ∩ U₃
-```
-
-on which every required upstream theorem is simultaneously valid.
-
-Whenever Theorem 4 is invoked,
-
-```text
-U₅ ⊆ U₄
-```
-
-shall also hold.
-
-No conclusion of Theorem 5 is established outside the declared composition domain.
-
----
-
-### A2 — Common Mathematical Model
-
-Every consumed theorem shall refer to the same declared mathematical model.
-
-In particular,
-
-- measurement definitions;
-- candidate semantics;
-- state representations;
-- claim mappings;
-- reporting rules;
-- perturbation interpretations;
-
-shall be mutually compatible.
-
-No theorem may silently reinterpret objects established by another theorem.
-
----
-
-### A3 — Consistent Mathematical Semantics
-
-Every shared mathematical object shall retain one interpretation throughout the composed inference.
-
-Notation alone does not establish semantic equivalence.
-
-Whenever two interfaces employ differently defined mathematical objects, an explicit compatibility mapping shall be established before composition.
-
----
-
-## 3.4 Interface Assumptions
-
-### A4 — Certified Upstream Interfaces
-
-Every consumed theorem shall expose a certified mathematical interface consisting of:
-
-- declared inputs;
-- declared outputs;
-- assumptions;
-- perturbation domain;
-- mathematical semantics;
-- certified guarantees.
-
-Only certified interface outputs may be consumed by Theorem 5.
-
----
-
-### A5 — Interface Compatibility
-
-Every consumed interface shall be mathematically compatible with every downstream interface that consumes it.
-
-Compatibility includes:
-
-- type compatibility;
-- domain compatibility;
-- perturbation compatibility;
-- semantic compatibility;
-- representation compatibility.
-
-Compatibility shall be established explicitly.
-
-It is never inferred from notation, naming, or intended interpretation.
-
----
-
-### A6 — Interface Preservation
-
-Every intermediate transformation performed by Theorem 5 shall preserve the mathematical guarantees established by the consumed interface.
-
-No transformation may weaken, strengthen, reinterpret, or silently replace certified mathematical conclusions.
-
----
-
-## 3.5 Candidate Assumptions
-
-### A7 — Certified Finite Candidate Universe
-
-Theorem 2 supplies a certified finite candidate universe
-
-```text
-D.
-```
-
-Every compatible candidate considered by Theorem 5 belongs to
-
-```text
-D.
-```
-
-Theorem 5 introduces no additional candidate hypotheses.
-
----
-
-### A8 — Complete Compatible-State Family
-
-For every
-
-```text
-h ∈ D
-```
-
-and
-
-```text
-u ∈ U₅,
-```
-
-the compatible-state fiber
-
-```text
-Sₕ(u)
-```
-
-is correctly defined.
-
-Each compatible state represented within
-
-```text
-Sₕ(u)
-```
-
-shall satisfy the compatibility conditions established by the consumed interfaces.
-
----
-
-### A9 — Candidate Identity Preservation
-
-Candidate identity shall remain explicitly represented throughout the composed inference.
-
-No two distinct candidate hypotheses may become mathematically indistinguishable before the declared reporting stage unless explicitly permitted by the reporting map.
-
----
-
-## 3.6 Mapping Assumptions
-
-### A10 — Well-Defined Claim Mapping
-
-The claim mapping
-
-```text
-G
-```
-
-shall be well-defined on every compatible element of
-
-```text
-K_exact(u).
-```
-
-Every compatible pair
-
-```text
-(h, θ)
-```
-
-shall map to one mathematically valid claim.
-
-No additional algebraic properties are assumed unless explicitly stated elsewhere.
-
----
-
-### A11 — Well-Defined Reporting Map
-
-The reporting map
-
-```text
-ρ
-```
-
-shall be well-defined on every claim generated by
-
-```text
-G.
-```
-
-The reporting map may intentionally merge mathematically distinct claims whenever required by the declared reporting resolution.
-
-No injectivity, surjectivity, or information preservation is assumed.
-
----
-
-### A12 — Mapping Consistency
-
-Every mapping consumed by Theorem 5 shall preserve the declared semantics of its domain and codomain.
-
-Mappings shall not alter the mathematical interpretation of objects beyond that explicitly declared.
-
----
-
-## 3.7 Composition Assumptions
-
-### A13 — Conservative Composition
-
-Composition shall preserve every certified conclusion established by consumed theorems.
-
-Composition shall establish no mathematical conclusion stronger than those justified by its assumptions.
-
----
-
-### A14 — Object Preservation
-
-Every primary mathematical object shall remain explicitly recoverable throughout the composed inference.
-
-In particular,
-
-```text
-K_exact(u),
-```
-
-```text
-Z_exact(u),
-```
-
-and
-
-```text
-C_exact(u)
-```
-
-remain distinct mathematical objects.
-
-No downstream object replaces an upstream object.
-
----
-
-### A15 — Exactness Preservation
-
-Whenever a consumed theorem establishes exact recovery,
-
-Theorem 5 shall preserve that exactness unless explicitly weakened by the declared reporting resolution.
-
-Exactness shall never be inferred solely through composition.
-
----
-
-### A16 — Enclosure Preservation
-
-Whenever certified inner and outer approximations are consumed,
-
-```text
-X⁻ ⊆ X_exact ⊆ X⁺
-```
-
-shall remain valid throughout every mathematically justified transformation.
-
-No transformation may invalidate certified enclosure relationships.
-
----
-
-## 3.8 Optional Recovery Assumptions
-
-The following assumptions are required only for optional recovery conclusions.
-
-They are not required for the principal composition theorem.
-
----
-
-### A17 — Score Separation
-
-Whenever score-selected recovery is claimed,
-
-the corresponding score-separation conditions established by Theorem 4 shall hold.
-
----
-
-### A18 — Perturbation Stability
-
-Whenever perturbation stability is claimed,
-
-the corresponding stability assumptions established by Theorem 4 shall hold.
-
----
-
-### A19 — Localization Interpretation
-
-Whenever localization conclusions are reported,
-
-the claim mapping
-
-```text
-G
-```
-
-shall assign explicit localization semantics to the recovered mathematical claims.
-
-No localization conclusion follows solely from mathematical composition.
-
----
-
-### A20 — Certified Raw Observation Interface
-
-Whenever Theorem 5 is interpreted as a complete end-to-end inference theorem,
-
-the optional interface
-
-```text
-E0
-```
-
-shall be established.
-
-Otherwise, the theorem shall be interpreted as beginning with the certified outputs of Theorem 1.
-
----
-
-## 3.9 Dependency Principle
-
-Every theorem, lemma, proposition, and corollary appearing after this section shall explicitly identify the assumptions upon which it depends.
-
-No mathematical result shall inherit assumptions implicitly.
-
-Whenever a stronger conclusion requires additional assumptions, those assumptions shall be stated explicitly within the corresponding theorem or corollary.
-
----
-
-## 3.10 Interpretation
-
-The assumptions defined in this section establish the mathematical conditions under which independently certified results may be composed into a single coherent inference.
-
-They do not themselves establish compatibility, uniqueness, exactness, stability, localization, or reporting.
-
-Those conclusions are established only by the supporting lemmas, the principal composition theorem, and the associated corollaries that follow.
-
-# 4. Upstream Mathematical Contracts
-
-## 4.1 Purpose
-
-Theorem 5 does not reprove the mathematical results established by Theorems 1–4.
-
-Instead, it consumes their certified outputs through explicitly declared mathematical contracts.
-
-Each contract specifies:
-
-- the mathematical objects consumed;
-- the mathematical objects produced;
-- the guarantees established by the upstream theorem;
-- the guarantees required by Theorem 5;
-- the limitations inherited by composition.
-
-Accordingly, Theorem 5 treats each preceding theorem as a certified mathematical interface rather than as an implementation.
-
-No mathematical property beyond the guarantees explicitly established by the corresponding upstream theorem shall be assumed.
-
----
-
-## 4.2 Contract Structure
-
-Every upstream contract consists of five components.
-
-### Inputs
-
-The mathematical objects accepted by the theorem.
-
----
-
-### Outputs
-
-The certified mathematical objects established by the theorem.
-
----
-
-### Guarantees
-
-The mathematical conclusions established under the theorem's assumptions.
-
----
-
-### Non-Guarantees
-
-Properties intentionally not established by the theorem.
-
----
-
-### Composition Requirements
-
-Additional properties required before the theorem may participate in certified end-to-end composition.
-
----
-
-# 4.3 Contract T1 — Certified Measurement Formation
-
-## Purpose
-
-Theorem 1 establishes certified mathematical measurements suitable for downstream inference.
-
-Theorem 5 consumes these measurements without modifying their mathematical meaning.
-
----
-
-### Inputs
-
-Theorem 1 consumes:
-
-- certified observations;
-- declared measurement configuration;
-- declared perturbation model;
-- declared measurement assumptions.
-
----
-
-### Outputs
-
-Theorem 1 produces certified measurement objects satisfying its declared mathematical guarantees.
-
-These objects constitute the certified measurement interface consumed by Theorem 5.
-
----
-
-### Guarantees
-
-Under its assumptions, Theorem 1 establishes:
-
-- mathematically valid measurement formation;
-- preservation of declared measurement semantics;
-- certified measurement uncertainty representation;
-- compatibility with the declared perturbation model.
-
----
-
-### Non-Guarantees
-
-Theorem 1 does not establish:
-
-- finite ambiguity resolution;
-- candidate construction;
-- compatibility between candidate hypotheses;
-- report construction;
-- uniqueness;
-- optimization;
-- localization.
-
----
-
-### Composition Requirements
-
-For composition,
-
-Theorem 5 requires that:
-
-- measurement semantics remain unchanged;
-- perturbation interpretations remain unchanged;
-- declared units remain consistent;
-- certified measurement guarantees remain valid on U₅.
-
-No downstream theorem may reinterpret certified measurements.
-
----
-
-# 4.4 Contract T2 — Certified Candidate Construction
-
-## Purpose
-
-Theorem 2 establishes the certified finite candidate universe consumed by Theorem 5.
-
----
-
-### Inputs
-
-The certified measurement objects produced by Theorem 1.
-
----
-
-### Outputs
-
-Theorem 2 produces
-
-```text
-D
-
-D_exact(u)
-```
-
-together with every certified candidate required for downstream inference.
-
----
-
-### Guarantees
-
-Under its assumptions, Theorem 2 establishes:
-
-- certified finite candidate construction;
-- candidate completeness within the declared admissible domain;
-- preservation of candidate identity;
-- certified candidate semantics.
-
----
-
-### Non-Guarantees
-
-Theorem 2 does not establish:
-
-- compatible states;
-- candidate truth;
-- claim mappings;
-- report images;
-- score selection;
-- localization.
-
----
-
-### Composition Requirements
-
-Theorem 5 requires:
-
-- every compatible candidate belongs to D;
-- candidate identity is preserved;
-- no candidate is introduced downstream;
-- every downstream construction operates only on D.
-
----
-
-# 4.5 Contract T3 — Certified Claim and Report Construction
-
-## Purpose
-
-Theorem 3 establishes the mathematical framework for claim-image and report-image construction.
-
----
-
-### Inputs
-
-The compatible candidate–state relation constructed by Theorem 5.
-
----
-
-### Outputs
-
-Theorem 3 establishes certified:
-
-```text
-Z_exact(u)
-
-C_exact(u)
-```
-
-together with any corresponding certified enclosures.
-
----
-
-### Guarantees
-
-Under its assumptions, Theorem 3 establishes:
-
-- mathematically valid claim-image construction;
-- mathematically valid report construction;
-- certified image propagation;
-- certified reporting semantics.
-
----
-
-### Non-Guarantees
-
-Theorem 3 does not establish:
-
-- candidate uniqueness;
-- optimization;
-- perturbation stability;
-- localization truth.
-
----
-
-### Composition Requirements
-
-Theorem 5 requires:
-
-- claim mappings remain unchanged;
-- reporting mappings remain unchanged;
-- reporting semantics remain unchanged;
-- every report image derives only from certified claim images.
-
----
-
-# 4.6 Contract T4 — Optional Selection and Stability
-
-## Purpose
-
-Theorem 4 provides optional recovery refinements beyond the principal composition theorem.
-
-Theorem 4 is **not** required for the principal end-to-end composition theorem.
-
----
-
-### Inputs
-
-Certified mathematical objects produced by Theorem 5 together with any additional assumptions required by Theorem 4.
-
----
-
-### Outputs
-
-Optional certified:
-
-- score-selected candidates;
-- score-selected reports;
-- perturbation-stability certificates.
-
----
-
-### Guarantees
-
-Whenever its assumptions are satisfied, Theorem 4 establishes:
-
-- certified score separation;
-- certified score-selected recovery;
-- certified perturbation stability.
-
----
-
-### Non-Guarantees
-
-Theorem 4 does not strengthen:
-
-- candidate completeness;
-- compatible relation construction;
-- claim-image correctness;
-- report-image correctness.
-
-Theorem 4 refines existing certified mathematical objects.
-
-It does not replace them.
-
----
-
-### Composition Requirements
-
-Whenever Theorem 4 is invoked,
-
-its perturbation domain shall satisfy
-
-```text
-U₅ ⊆ U₄.
-```
-
-Every optional recovery conclusion shall explicitly identify the additional assumptions inherited from Theorem 4.
-
----
-
-# 4.7 Optional Contract E0 — Certified Raw Observation Interface
-
-## Purpose
-
-E0 extends Theorem 5 from certified measurement composition to complete end-to-end inference.
-
----
-
-### Inputs
-
-Raw observations satisfying the assumptions of the E0 interface.
-
----
-
-### Outputs
-
-Certified observation objects suitable for Theorem 1.
-
----
-
-### Guarantees
-
-When established,
-
-E0 certifies the mathematical validity of the observation interface consumed by Theorem 1.
-
----
-
-### Non-Guarantees
-
-E0 does not establish:
-
-- measurement formation;
-- candidate construction;
-- compatibility;
-- report construction;
-- optimization;
-- stability.
-
----
-
-### Composition Requirements
-
-Whenever E0 is absent,
-
-Theorem 5 shall be interpreted as beginning with the certified outputs of Theorem 1.
-
-Only when E0 is established may Theorem 5 be interpreted as a complete certified raw-observation-to-report inference theorem.
-
----
-
-# 4.8 Contract Compatibility
-
-For every pair of composed contracts,
-
-the following properties shall be established before composition.
-
-- type compatibility;
-- domain compatibility;
-- perturbation compatibility;
-- semantic compatibility;
-- representation compatibility;
-- guarantee preservation.
-
-Failure of any required compatibility condition invalidates the corresponding composition.
-
----
-
-# 4.9 Contract Preservation Principle
-
-Throughout Theorem 5,
-
-every upstream contract is consumed exactly as certified.
-
-Composition:
-
-- preserves certified guarantees;
-- preserves declared semantics;
-- preserves perturbation domains;
-- preserves mathematical interpretation.
-
-Composition establishes no property stronger than those established by the consumed contracts together with the additional assumptions explicitly introduced by Theorem 5.
-
----
-
-# 4.10 Interpretation
-
-The contracts defined in this section provide the certified mathematical interfaces through which independently established theorems become composable.
-
-They are not implementations.
-
-They are not software interfaces.
-
-They are mathematical contracts governing the admissible flow of certified mathematical objects through the AWC inference framework.
-
-The following section establishes the native mathematical lemmas required to compose these contracts into a single certified end-to-end inference theorem.
-
-# 5. Supporting Lemmas
-
-## 5.1 Purpose
-
-The preceding sections defined the mathematical objects, assumptions, and certified contracts consumed by Theorem 5.
-
-This section establishes the native mathematical lemmas required to compose those contracts into a single certified end-to-end inference theorem.
-
-Unlike Theorems 1–4, these lemmas do not introduce new measurement models, ambiguity analyses, report constructions, or perturbation results.
-
-Instead, they establish the mathematical properties required for certified composition.
-
-Each lemma is stated independently.
-
-Every lemma identifies the assumptions upon which it depends.
-
-No lemma assumes results that have not already been established by Sections 2–4 or by explicitly consumed upstream contracts.
-
----
-
-# 5.2 Lemma L1 — Interface Compatibility Preservation
-
-## Statement
-
-Assume:
-
-- A1–A6.
-
-Suppose every consumed upstream contract is mutually compatible with respect to:
-
-- mathematical type;
-- perturbation domain;
-- semantic interpretation;
-- certified exactness class;
-- declared representation.
-
-Then every mathematical object consumed by Theorem 5 remains well-defined throughout every admissible composition.
-
----
-
-## Proof Sketch
-
-Each upstream contract supplies certified mathematical objects together with explicitly declared interfaces.
-
-By A5, interface compatibility has been established.
-
-By A6, certified guarantees are preserved by every intermediate transformation.
-
-Therefore every consumed object retains its mathematical interpretation throughout the composed inference.
-
-∎
-
----
-
-## Consequence
-
-Interface compatibility is preserved under certified composition.
-
-No additional semantic interpretation is introduced.
-
----
-
-# 5.3 Lemma L2 — Compatible Relation Construction
-
-## Statement
-
-Assume:
-
-- A1–A10.
-
-For every
-
-```text
-u ∈ U₅,
-```
-
-the compatible candidate–state relation
-
-```text
-K_exact(u)
-
-= ⨆ₕ∈D_exact(u)
-    {h} × Sₕ(u)
-```
-
-is well-defined.
-
----
-
-## Proof Sketch
-
-Theorem 2 establishes
-
-```text
-D_exact(u).
-```
-
-Assumption A8 establishes
-
-```text
-Sₕ(u)
-```
-
-for every compatible candidate.
-
-The tagged disjoint union preserves candidate identity.
-
-Therefore every compatible pair
-
-```text
-(h, θ)
-```
-
-belongs to exactly one component of
-
-```text
-K_exact(u).
-```
-
-Hence the relation exists and is well-defined.
-
-∎
-
----
-
-## Consequence
-
-The compatible candidate–state relation exists independently of claim construction or report construction.
-
----
-
-# 5.4 Lemma L3 — Claim Image Preservation
-
-## Statement
-
-Assume:
-
-- A1–A12.
-
-If
-
-```text
-G :
-
-K_exact(u)
-
-→
-
-Z_exact(u)
-```
-
-is well-defined,
-
-then
-
-```text
-Z_exact(u)
-
-=
-
-G[K_exact(u)]
-```
-
-is uniquely determined by
-
-```text
-K_exact(u)
-```
-
-and
-
-```text
-G.
-```
-
----
-
-## Proof Sketch
-
-Because
-
-```text
-G
-```
-
-is well-defined by A10,
-
-every element of
-
-```text
-K_exact(u)
-```
-
-possesses exactly one image.
-
-Therefore the image set
-
-```text
-G[K_exact(u)]
-```
-
-is uniquely determined.
-
-No additional assumptions are required.
-
-∎
-
----
-
-## Consequence
-
-Claim-image construction introduces no ambiguity beyond that already present in the compatible relation.
-
----
-
-# 5.5 Lemma L4 — Report Image Preservation
-
-## Statement
-
-Assume:
-
-- A1–A12.
-
-If
-
-```text
-ρ :
-
-Z_exact(u)
-
-→
-
-C_exact(u)
-```
-
-is well-defined,
-
-then
-
-```text
-C_exact(u)
-
-=
-
-ρ[Z_exact(u)]
-```
-
-is uniquely determined.
-
----
-
-## Proof Sketch
-
-A11 establishes that
-
-```text
-ρ
-```
-
-is well-defined.
-
-Every claim therefore possesses exactly one reported image.
-
-Distinct claims may map to the same report.
-
-Nevertheless,
-
-```text
-ρ[Z_exact(u)]
-```
-
-is uniquely determined.
-
-∎
-
----
-
-## Consequence
-
-Report construction preserves mathematical correctness while permitting intentional information reduction.
-
----
-
-# 5.6 Lemma L5 — Composition Conservativity
-
-## Statement
-
-Assume:
-
-- A1–A16.
-
-Suppose every upstream contract satisfies its declared guarantees.
-
-Then composition establishes no mathematical conclusion stronger than those established by the consumed contracts together with the assumptions introduced by Theorem 5.
-
----
-
-## Proof Sketch
-
-Every consumed theorem contributes only its certified interface.
-
-By A13,
-
-composition preserves established conclusions.
-
-No inference rule introduces additional mathematical properties.
-
-Therefore every composed conclusion follows solely from:
-
-- certified upstream guarantees;
-- assumptions of Theorem 5;
-- standard mathematical reasoning.
-
-No stronger conclusion is established.
-
-∎
-
----
-
-## Consequence
-
-Certified composition is mathematically conservative.
-
----
-
-# 5.7 Lemma L6 — Recovery Object Preservation
-
-## Statement
-
-Assume:
-
-- A1–A16.
-
-The recovery objects
-
-```text
-K_exact(u),
-
-Z_exact(u),
-
-C_exact(u)
-```
-
-remain simultaneously defined throughout every admissible inference.
-
----
-
-## Proof Sketch
-
-Section 2 defines each recovery object independently.
-
-Sections 3 and 4 preserve their mathematical interpretation.
-
-Neither
-
-```text
-G
-```
-
-nor
-
-```text
-ρ
-```
-
-replaces upstream mathematical objects.
-
-Instead,
-
-they construct successive mathematical images.
-
-Therefore every recovery object remains mathematically meaningful.
-
-∎
-
----
-
-## Consequence
-
-Theorem 5 certifies mathematical object preservation rather than mathematical replacement.
-
----
-
-# 5.8 Lemma L7 — Certified Enclosure Preservation
-
-## Statement
-
-Assume:
-
-- A1–A16.
-
-Suppose every consumed theorem supplies certified enclosures
-
-```text
-X⁻ ⊆ X_exact ⊆ X⁺.
-```
-
-Then every mathematically justified transformation performed by Theorem 5 preserves the corresponding enclosure relationship.
-
----
-
-## Proof Sketch
-
-A16 requires enclosure preservation.
-
-Each transformation acts only upon certified mathematical objects.
-
-Therefore every certified inner approximation remains contained within the exact object, while every certified outer approximation continues to contain the exact object.
-
-Thus,
-
-```text
-X⁻
-
-⊆
-
-X_exact
-
-⊆
-
-X⁺
-```
-
-is preserved throughout composition.
-
-∎
-
----
-
-## Consequence
-
-Composition preserves certified exactness classes.
-
----
-
-# 5.9 Lemma Dependency Summary
-
-The supporting lemmas establish:
-
-| Lemma | Established Property |
-|-------|----------------------|
-| L1 | Interface compatibility preservation |
-| L2 | Compatible relation existence |
-| L3 | Claim-image existence |
-| L4 | Report-image existence |
-| L5 | Conservative composition |
-| L6 | Recovery-object preservation |
-| L7 | Certified enclosure preservation |
-
-Collectively, these lemmas establish every mathematical property required for the principal composition theorem.
-
----
-
-# 5.10 Interpretation
-
-The lemmas established in this section introduce no new measurement models, ambiguity analyses, report constructions, or perturbation theories.
-
-Instead, they provide the mathematical bridge between the certified contracts of Section 4 and the principal theorem proved in the following section.
-
-Together they establish that certified mathematical objects, interfaces, mappings, and guarantees remain valid throughout admissible composition.
-
-The next section combines these lemmas into the principal theorem of conditional end-to-end inference composition.
-
-# 6. Principal Composition Theorem
-
-## 6.1 Purpose
-
-This section establishes the principal mathematical result of Theorem 5.
-
-Unlike the supporting lemmas of Section 5, which establish individual properties required for composition, the principal theorem combines those results into a single certified end-to-end inference theorem.
-
-The theorem proves that independently certified mathematical contracts may be composed into one coherent inference while preserving:
-
-- mathematical correctness;
-- semantic interpretation;
-- certified guarantees;
-- exactness classifications;
-- perturbation-domain restrictions.
-
-No conclusion stronger than those established by the consumed contracts together with the assumptions of Theorem 5 is introduced.
-
----
-
-# 6.2 Principal Composition Theorem
-
-## Theorem T5 — Conditional End-to-End Inference Composition
-
-### Assumptions
-
-Assume:
-
-- A1–A16.
-
-Additionally assume that every consumed upstream contract satisfies the compatibility conditions established in Section 4.
-
----
-
-### Statement
-
-For every perturbation state
-
-```text
-u ∈ U₅,
-```
-
-suppose:
-
-- the certified measurement interface of Theorem 1 is established;
-
-- the certified candidate universe supplied by Theorem 2 is established;
-
-- the compatible candidate–state relation
-
-```text
-K_exact(u)
-```
-
-is constructed according to Section 2;
-
-- the claim mapping
-
-```text
-G
-```
-
-is well-defined;
-
-- the reporting map
-
-```text
-ρ
-```
-
-is well-defined.
-
-Then the composed inference
-
-```text
-K_exact(u)
-
-→
-
-Z_exact(u)
-
-→
-
-C_exact(u)
-```
-
-is mathematically well-defined.
-
-Furthermore,
-
-```text
-Z_exact(u)
-
-=
-
-G[K_exact(u)]
-```
-
-and
-
-```text
-C_exact(u)
-
-=
-
-ρ[Z_exact(u)].
-```
-
-The resulting mathematical objects are certified under the assumptions of the consumed contracts together with the assumptions of Theorem 5.
-
----
-
-## 6.3 Preservation Properties
-
-The composed inference preserves:
-
-### P1 — Interface Preservation
-
-Every certified mathematical interface remains valid throughout composition.
-
----
-
-### P2 — Semantic Preservation
-
-Every mathematical object retains its declared interpretation.
-
-No downstream transformation silently changes mathematical meaning.
-
----
-
-### P3 — Candidate Preservation
-
-Every compatible candidate represented within
-
-```text
-D_exact(u)
-```
-
-remains represented within
-
-```text
-K_exact(u).
-```
-
----
-
-### P4 — Relation Preservation
-
-The compatible candidate–state relation remains mathematically complete.
-
-No compatible pair is introduced or removed by composition.
-
----
-
-### P5 — Claim Preservation
-
-Every claim contained in
-
-```text
-Z_exact(u)
-```
-
-is generated exclusively from certified compatible pairs.
-
----
-
-### P6 — Report Preservation
-
-Every report contained in
-
-```text
-C_exact(u)
-```
-
-is generated exclusively from certified claims.
-
----
-
-### P7 — Exactness Preservation
-
-Whenever exact recovery has been established by consumed contracts,
-
-Theorem 5 preserves that exactness unless intentionally weakened by the declared reporting resolution.
-
----
-
-### P8 — Enclosure Preservation
-
-Whenever
-
-```text
-X⁻ ⊆ X_exact ⊆ X⁺
-```
-
-is certified,
-
-composition preserves the enclosure relationship.
-
----
-
-## 6.4 Principal Proof
-
-By Lemma L1,
-
-all consumed mathematical interfaces remain compatible throughout composition.
-
-By Lemma L2,
-
-the compatible candidate–state relation
-
-```text
-K_exact(u)
-```
-
-exists and is well-defined.
-
-By Lemma L3,
-
-the claim image
-
-```text
-Z_exact(u)
-```
-
-is uniquely determined by
-
-```text
-G
-```
-
-and
-
-```text
-K_exact(u).
-```
-
-By Lemma L4,
-
-the report image
-
-```text
-C_exact(u)
-```
-
-is uniquely determined by
-
-```text
-ρ
-```
-
-and
-
-```text
-Z_exact(u).
-```
-
-By Lemma L5,
-
-composition establishes no mathematical conclusion stronger than those justified by the consumed contracts together with the assumptions of this theorem.
-
-By Lemma L6,
-
-the recovery objects
-
-```text
-K_exact(u),
-
-Z_exact(u),
-
-C_exact(u)
-```
-
-remain simultaneously defined and mathematically meaningful.
-
-By Lemma L7,
-
-every certified enclosure relationship remains valid throughout admissible composition.
-
-Therefore,
-
-the composed inference is mathematically well-defined,
-
-semantically consistent,
-
-contract preserving,
-
-and conditionally certified.
-
-∎
-
----
-
-## 6.5 Corollary — Certified End-to-End Inference
-
-Assume:
-
-- Theorem T5;
-
-- A20;
-
-- the optional interface
-
-```text
-E0
-```
-
-is established.
-
-Then the certified inference path
-
-```text
-Raw observations
-        │
-        ▼
-Certified measurements
-        │
-        ▼
-Finite candidate construction
-        │
-        ▼
-Compatible candidate–state relation
-        │
-        ▼
-Claim image
-        │
-        ▼
-Report image
-```
-
-constitutes a certified end-to-end mathematical inference.
-
----
-
-## 6.6 Corollary — Exact Recovery
-
-Suppose
-
-```text
-K⁻(u)
-
-=
-
-K⁺(u)
-```
-
-Then
-
-```text
-K⁻(u)
-
-=
-
-K_exact(u)
-
-=
-
-K⁺(u).
-```
-
-Likewise,
-
-```text
-Z⁻(u)
-
-=
-
-Z⁺(u)
-
-⇒
-
-Z_exact(u),
-```
-
-and
-
-```text
-C⁻(u)
-
-=
-
-C⁺(u)
-
-⇒
-
-C_exact(u).
-```
-
-Accordingly,
-
-coincident certified enclosures establish exact recovery of the corresponding mathematical object.
-
----
-
-## 6.7 Corollary — Conservative Composition
-
-Composition never establishes conclusions beyond those justified by:
-
-- certified upstream contracts;
-
-- assumptions A1–A16;
-
-- standard mathematical reasoning.
-
-Accordingly,
-
-Theorem 5 is mathematically conservative.
-
----
-
-## 6.8 Corollary — Recovery Object Preservation
-
-The compatible relation,
-
-claim image,
-
-and report image remain simultaneously valid certified mathematical objects throughout composition.
-
-Later recovery objects supplement earlier ones.
-
-They do not replace them.
-
----
-
-## 6.9 Corollary — Interface Independence
-
-The correctness of the composed inference depends only upon the certified mathematical contracts consumed by Theorem 5.
-
-It does not depend upon implementation details, programming language, execution order, storage representation, or computational architecture, provided every implementation preserves the certified mathematical contracts and assumptions established by this theorem.
-
----
-
-## 6.10 Interpretation
-
-The principal theorem establishes the central mathematical result of the Adaptive Waveform Correlation composition framework.
-
-It proves that independently certified mathematical components may be composed into one coherent inference while preserving:
-
-- mathematical correctness;
-- semantic consistency;
-- certified guarantees;
-- recovery-object integrity;
-- exactness classifications;
-- perturbation-domain restrictions.
-
-The theorem intentionally establishes no stronger conclusion than that supported by its assumptions.
-
-Optional conclusions concerning score-selected recovery, perturbation stability, localization, or application-specific interpretation require the additional assumptions introduced by Theorem 4 or by application-specific mathematical contracts.
-
-Accordingly, Theorem 5 completes the mathematical foundation of the AWC inference framework by establishing the conditions under which independently certified mathematical results become one certified end-to-end inference.
-
-# 7. Certified Recovery Results and Corollaries
-
-## 7.1 Purpose
-
-The principal theorem established in Section 6 proves that independently certified mathematical contracts may be composed into one coherent mathematical inference.
-
-This section establishes the certified recovery results that follow directly from the principal composition theorem.
-
-Unlike Section 6, which proves the validity of mathematical composition itself, this section characterizes the mathematical properties of the recovery objects produced by that composition.
-
-Every result established herein is conditional upon the assumptions identified by the corresponding theorem, lemma, or corollary.
-
-No stronger conclusion shall be inferred.
-
----
-
-# 7.2 Recovery Hierarchy
-
-Theorem 5 certifies three primary recovery objects.
-
-These form the recovery hierarchy
-
-```text
-Compatible candidate–state relation
-
-K_exact(u)
-
-        │
-        ▼
-
-Claim image
-
-Z_exact(u)
-
-        │
-        ▼
-
-Report image
-
-C_exact(u)
-```
-
-Each recovery object is mathematically complete within its own interpretation.
-
-Later recovery objects are mathematical images of earlier objects.
-
-No recovery object replaces another.
-
----
-
-# 7.3 Corollary C1 — Compatible Relation Recovery
-
-## Assumptions
-
-- Theorem T5;
-- A1–A16.
-
----
-
-## Statement
-
-For every
-
-```text
-u ∈ U₅,
-```
-
-the compatible relation
-
-```text
-K_exact(u)
-```
-
-is the complete certified relation determined by
-
-- the certified candidate universe;
-
-- the compatible-state fibers;
-
-- the declared perturbation state.
-
-No compatible candidate–state pair is omitted.
-
-No incompatible pair is introduced.
-
----
-
-## Proof
-
-Immediate from
-
-- Lemma L2;
-- Lemma L6;
-- Theorem T5.
-
-∎
-
----
-
-# 7.4 Corollary C2 — Claim Image Recovery
-
-## Assumptions
-
-- Theorem T5;
-- A1–A16.
-
----
-
-## Statement
-
-The certified claim image is
-
-```text
-Z_exact(u)
-
-=
-
-G[K_exact(u)].
-```
-
-Every certified claim originates from a compatible candidate–state pair.
-
-No certified claim exists independently of the declared claim mapping.
-
----
-
-## Proof
-
-Immediate from
-
-- Lemma L3;
-- Theorem T5.
-
-∎
-
----
-
-# 7.5 Corollary C3 — Report Image Recovery
-
-## Assumptions
-
-- Theorem T5;
-- A1–A16.
-
----
-
-## Statement
-
-The certified report image is
-
-```text
-C_exact(u)
-
-=
-
-ρ[Z_exact(u)].
-```
-
-Every certified report originates from a certified claim.
-
-Every certified claim originates from a certified compatible relation.
-
-Accordingly,
-
-```text
-K_exact(u)
-
-⇒
-
-Z_exact(u)
-
-⇒
-
-C_exact(u)
-```
-
-defines the complete certified recovery chain.
-
----
-
-## Proof
-
-Immediate from
-
-- Lemma L4;
-- Theorem T5.
-
-∎
-
----
-
-# 7.6 Corollary C4 — Exact Recovery
-
-## Assumptions
-
-- Theorem T5;
-- certified enclosure equality.
-
----
-
-## Statement
-
-Whenever
-
-```text
-K⁻(u)
-
-=
-
-K⁺(u),
-```
-
-then
-
-```text
-K⁻(u)
-
-=
-
-K_exact(u)
-
-=
-
-K⁺(u).
-```
-
-Likewise,
-
-```text
-Z⁻(u)
-
-=
-
-Z_exact(u)
-
-=
-
-Z⁺(u),
-```
-
-and
-
-```text
-C⁻(u)
-
-=
-
-C_exact(u)
-
-=
-
-C⁺(u).
-```
-
-Therefore,
-
-coincident certified enclosures establish exact recovery of the corresponding mathematical object.
-
----
-
-## Proof
-
-Immediate from
-
-- Lemma L7;
-- Theorem T5.
-
-∎
-
----
-
-# 7.7 Corollary C5 — Conservative Recovery
-
-## Assumptions
-
-- Theorem T5.
-
----
-
-## Statement
-
-Every certified recovery object contains exactly the mathematical information justified by
-
-- the certified upstream contracts;
-
-- assumptions A1–A16;
-
-- the declared mappings
-
-```text
-G
-
-ρ.
-```
-
-No recovery object establishes additional mathematical conclusions solely through composition.
-
----
-
-## Proof
-
-Immediate from
-
-- Lemma L5;
-- Theorem T5.
-
-∎
-
----
-
-# 7.8 Corollary C6 — Object Preservation
-
-## Assumptions
-
-- Theorem T5.
-
----
-
-## Statement
-
-Throughout certified inference,
-
-```text
-K_exact(u),
-
-Z_exact(u),
-
-C_exact(u)
-```
-
-remain simultaneously valid certified mathematical objects.
-
-The construction of later recovery objects does not invalidate earlier recovery objects.
-
-Instead,
-
-```text
-K_exact(u)
-
-↓
-
-Z_exact(u)
-
-↓
-
-C_exact(u)
-```
-
-forms a hierarchy of mathematically related objects connected by certified mappings.
-
----
-
-## Proof
-
-Immediate from
-
-- Lemma L6;
-- Theorem T5.
-
-∎
-
----
-
-# 7.9 Corollary C7 — Interface Independence
-
-## Assumptions
-
-- Theorem T5.
-
----
-
-## Statement
-
-The certified recovery objects produced by Theorem 5 depend only upon
-
-- the declared mathematical objects;
-
-- the certified mathematical contracts;
-
-- the assumptions of Theorem 5.
-
-They do not depend upon
-
-- implementation language;
-
-- execution order;
-
-- storage representation;
-
-- computational architecture;
-
-provided the certified mathematical contracts remain satisfied.
-
----
-
-## Proof
-
-Immediate from
-
-- Lemma L1;
-- Lemma L5;
-- Theorem T5.
-
-∎
-
----
-
-# 7.10 Corollary C8 — Optional End-to-End Recovery
-
-## Assumptions
-
-- Theorem T5;
-- A20;
-- certified E0 interface.
-
----
-
-## Statement
-
-When the optional interface
-
-```text
-E0
-```
-
-is established,
-
-the certified recovery chain becomes
-
-```text
-Raw observations
-
-        │
-        ▼
-
-Certified measurements
-
-        │
-        ▼
-
-Finite candidate construction
-
-        │
-        ▼
-
-Compatible candidate–state relation
-
-        │
-        ▼
-
-Claim image
-
-        │
-        ▼
-
-Report image
-```
-
-Accordingly,
-
-Theorem 5 certifies the complete mathematical recovery path from certified observations to certified report images.
-
----
-
-## Proof
-
-Immediate from
-
-- Corollary C3;
-- Corollary C6;
-- Theorem T5.
-
-∎
-
----
-
-# 7.11 Recovery Dependency Summary
-
-The certified recovery results established by this section are summarized below.
-
-| Result | Established Property | Depends Upon |
-|---------|----------------------|--------------|
-| C1 | Compatible relation recovery | T5, L2, L6 |
-| C2 | Claim image recovery | T5, L3 |
-| C3 | Report image recovery | T5, L4 |
-| C4 | Exact recovery | T5, L7 |
-| C5 | Conservative recovery | T5, L5 |
-| C6 | Recovery-object preservation | T5, L6 |
-| C7 | Interface independence | T5, L1, L5 |
-| C8 | End-to-end recovery | T5, A20 |
-
-Collectively, these corollaries characterize every certified mathematical recovery result established by Theorem 5.
-
-No additional recovery conclusions follow without introducing additional assumptions.
-
----
-
-# 7.12 Interpretation
-
-The results established in this section characterize the mathematical recovery objects certified by Theorem 5.
-
-They do not strengthen the assumptions, guarantees, or conclusions established by the principal composition theorem.
-
-Instead, they describe the mathematical consequences of certified composition for compatible relations, claim images, report images, exact recovery, and end-to-end inference.
-
-The following section specifies the certified outputs of Theorem 5 and the mathematical obligations associated with reporting those outputs.
-
-# 8. Certified Outputs
-
-## 8.1 Purpose
-
-This section specifies the certified mathematical outputs of Theorem 5.
-
-Unlike the preceding sections, which establish mathematical objects, assumptions, contracts, lemmas, the principal theorem, and recovery results, this section defines the normative outputs that may be reported as certified conclusions of the AWC composition framework.
-
-Every certified output produced by Theorem 5 shall correspond to a mathematically defined recovery object established by the principal theorem.
-
-No certified output shall imply a mathematical conclusion stronger than that established by Theorem T5 and its associated assumptions.
-
----
-
-# 8.2 Output Classification
-
-Theorem 5 recognizes three classes of certified outputs.
-
-## Primary Outputs
-
-The principal certified mathematical recovery objects.
-
-## Derived Outputs
-
-Mathematical objects obtained directly from the primary recovery objects through certified mappings.
-
-## Optional Outputs
-
-Additional mathematically certified outputs requiring assumptions beyond the principal theorem.
-
-No output may be reported outside one of these classes.
-
----
-
-# 8.3 Primary Certified Outputs
-
-The primary certified outputs of Theorem 5 are
-
-```text
-K_exact(u)
-
-Z_exact(u)
-
-C_exact(u)
-```
-
-These objects correspond respectively to
-
-- the compatible candidate–state relation;
-
-- the certified claim image;
-
-- the certified report image.
-
-Each primary output remains mathematically valid under the assumptions of Theorem T5.
-
-No primary output supersedes another.
-
-Each represents a distinct mathematical abstraction.
-
----
-
-# 8.4 Compatible Relation Output
-
-The compatible relation output is
-
-```text
-K_exact(u).
-```
-
-It certifies every mathematically compatible
-
-```text
-(candidate, state)
-```
-
-pair satisfying the declared assumptions.
-
-The compatible relation output shall report:
-
-- the certified compatible relation;
-
-- the certified perturbation domain;
-
-- the assumptions under which compatibility is established;
-
-- the applicable exactness classification.
-
-No interpretation beyond compatibility shall be inferred.
-
----
-
-# 8.5 Claim Image Output
-
-The certified claim output is
-
-```text
-Z_exact(u)
-
-=
-
-G[K_exact(u)].
-```
-
-This output certifies every mathematically valid claim generated from the compatible relation.
-
-The claim output shall report:
-
-- the certified claim image;
-
-- the claim mapping employed;
-
-- the assumptions supporting claim construction;
-
-- the applicable exactness classification.
-
-No claim shall be interpreted independently of its originating compatible relation.
-
----
-
-# 8.6 Report Image Output
-
-The certified report output is
-
-```text
-C_exact(u)
-
-=
-
-ρ[Z_exact(u)].
-```
-
-This output represents the highest reporting abstraction certified by Theorem 5.
-
-The report output shall identify:
-
-- the certified report image;
-
-- the reporting resolution;
-
-- the reporting map;
-
-- the assumptions supporting report construction;
-
-- the applicable exactness classification.
-
-The report image may intentionally merge mathematically distinct claims according to the declared reporting semantics.
-
----
-
-# 8.7 Certified Exactness Classes
-
-Every certified output shall identify its mathematical exactness class.
-
-Permitted classifications are
-
-```text
-Exact
-
-Certified Inner Approximation
-
-Certified Outer Approximation
-
-Certified Enclosure
-```
-
-Whenever applicable,
-
-```text
-X⁻
-
-⊆
-
-X_exact
-
-⊆
-
-X⁺
-```
-
-shall accompany the reported object.
-
-Whenever
-
-```text
-X⁻
-
-=
-
-X_exact
-
-=
-
-X⁺,
-```
-
-the output shall be classified as **Exactly Recovered**.
-
-Exactness classifications are properties of the certified mathematical objects.
-
-They are not empirical confidence measures.
-
----
-
-# 8.8 Certified Output Metadata
-
-Every certified output shall identify:
-
-- the recovery object;
-
-- the mathematical assumptions;
-
-- the perturbation domain;
-
-- the certified interface versions consumed;
-
-- the mappings employed;
-
-- the exactness classification;
-
-- any optional assumptions required for the reported result.
-
-No certified output is complete unless this metadata accompanies the reported mathematical object.
-
----
-
-# 8.9 Optional Certified Outputs
-
-The following outputs require assumptions beyond Theorem T5.
-
----
-
-## Score-Selected Output
-
-Requires:
-
-- Theorem 4;
-- score-separation assumptions.
-
-Produces:
-
-- certified score-selected candidate;
-- certified score-selected report.
-
----
-
-## Perturbation-Stability Output
-
-Requires:
-
-- Theorem 4;
-- perturbation-stability assumptions.
-
-Produces:
-
-- certified perturbation-stability statement.
-
----
-
-## End-to-End Output
-
-Requires:
-
-- certified interface
-
-```text
-E0;
-```
-
-- Assumption A20.
-
-Produces:
-
-- certified raw-observation-to-report inference.
-
-No optional output may be reported without explicitly identifying its additional assumptions.
-
----
-
-# 8.10 Output Preservation
-
-Certified outputs preserve:
-
-- mathematical correctness;
-
-- semantic interpretation;
-
-- certified interfaces;
-
-- recovery-object identity;
-
-- declared mappings;
-
-- exactness classifications.
-
-Certified outputs do **not** preserve distinctions intentionally removed by the reporting map
-
-```text
-ρ.
-```
-
-Accordingly,
-
-report outputs may be strictly coarser than claim outputs.
-
-Claim outputs may be strictly coarser than compatible relations.
-
----
-
-# 8.11 Reporting Requirements
-
-Every certified report produced under Theorem 5 shall include, either explicitly or by certified reference,
-
-- the recovery object reported;
-
-- the assumptions required;
-
-- the perturbation domain;
-
-- the certified mappings employed;
-
-- the exactness classification;
-
-- any optional recovery assumptions.
-
-Whenever optional conclusions are reported,
-
-their dependence upon additional assumptions shall be identified separately from the guarantees of the principal theorem.
-
----
-
-# 8.12 Output Dependency Summary
-
-| Certified Output | Mathematical Object | Required Assumptions |
-|------------------|---------------------|----------------------|
-| Compatible Relation | `K_exact(u)` | T5, A1–A16 |
-| Claim Image | `Z_exact(u)` | T5, A1–A16 |
-| Report Image | `C_exact(u)` | T5, A1–A16 |
-| Exact Recovery | `K_exact`, `Z_exact`, `C_exact` | Enclosure equality |
-| Score-Selected Recovery | Optional | Theorem 4 |
-| Stability Certification | Optional | Theorem 4 |
-| End-to-End Recovery | Optional | E0, A20 |
-
-Every certified output appearing within this theorem belongs to exactly one row of this table.
-
-No additional certified outputs are established without introducing additional mathematical assumptions.
-
----
-
-# 8.13 Interpretation
-
-This section specifies the normative mathematical outputs certified by Theorem 5.
-
-The compatible relation, claim image, and report image constitute the complete family of primary certified recovery objects established by the principal composition theorem.
-
-Optional outputs refine—but never replace—these primary recovery objects.
-
-Accordingly, every certified conclusion produced by Theorem 5 is traceable to a formally defined mathematical object, a declared mapping, a certified interface, and an explicit set of assumptions.
-
-The following section specifies the mathematical conditions under which certified outputs may be withheld, invalidated, or declared unavailable due to assumption failure or contract violation.
-
-# 9. Certification Failure Conditions and Limitations
-
-## 9.1 Purpose
-
-The preceding sections establish the mathematical conditions under which certified inference is valid.
-
-This section specifies the complementary conditions under which certification shall be withheld, limited, or declared unavailable.
-
-The absence of certification shall not be interpreted as evidence that a mathematical conclusion is false.
-
-Rather, it indicates only that the assumptions required for certification have not been established.
-
-Likewise, the presence of certification shall not be interpreted as establishing conclusions beyond those explicitly certified by Theorem 5.
-
----
-
-# 9.2 General Principle
-
-Certification is conditional.
-
-Accordingly,
-
-```text
-failure of assumptions
-
-⇒
-
-failure of certification
-```
-
-does **not** imply
-
-```text
-failure of the mathematical proposition.
-```
-
-Similarly,
-
-```text
-successful certification
-```
-
-does **not** imply
-
-```text
-empirical correctness,
-
-physical truth,
-
-or operational validity.
-```
-
-Certification establishes only the mathematical conclusions explicitly proved under the declared assumptions.
-
----
-
-# 9.3 Assumption Failure
-
-Whenever one or more required assumptions are not established,
-
-the corresponding certified conclusion shall not be reported.
-
-Examples include failure of:
-
-- perturbation-domain assumptions;
-- interface assumptions;
-- candidate assumptions;
-- mapping assumptions;
-- composition assumptions;
-- optional recovery assumptions.
-
-No theorem, lemma, proposition, or corollary may be invoked without all of its required assumptions.
-
----
-
-# 9.4 Interface Failure
-
-Certification shall be withheld whenever a required mathematical interface cannot be established.
-
-Examples include:
-
-- incompatible mathematical types;
-- incompatible perturbation domains;
-- incompatible semantic interpretations;
-- incompatible exactness classifications;
-- incompatible certified representations.
-
-Interface incompatibility invalidates the corresponding composition.
-
-No downstream theorem may compensate for an invalid interface.
-
----
-
-# 9.5 Contract Failure
-
-Certification shall be withheld whenever a consumed mathematical contract fails to establish its declared guarantees.
-
-Examples include:
-
-- uncertified inputs;
-- uncertified outputs;
-- violated contract assumptions;
-- undefined mathematical mappings;
-- unavailable certified recovery objects.
-
-Every downstream result depending upon the failed contract shall likewise be considered uncertified.
-
----
-
-# 9.6 Mapping Failure
-
-Certification shall not be established whenever either
-
-```text
-G
-```
-
-or
-
-```text
-ρ
-```
-
-fails to satisfy the assumptions required by Theorem 5.
-
-Examples include:
-
-- undefined mappings;
-- incomplete mappings;
-- inconsistent semantic interpretation;
-- undefined reporting resolution.
-
-Whenever mapping failure occurs,
-
-claim recovery,
-
-report recovery,
-
-and every dependent conclusion become unavailable.
-
----
-
-# 9.7 Exactness Failure
-
-Whenever certified enclosure equality is not established,
-
-exact recovery shall not be reported.
-
-Instead,
-
-the certified output shall identify the strongest exactness classification actually established.
-
-For example,
-
-```text
-X⁻ ⊂ X_exact ⊂ X⁺
-```
-
-shall be reported as a certified enclosure rather than exact recovery.
-
-No stronger exactness conclusion shall be inferred.
-
----
-
-# 9.8 Optional Recovery Failure
-
-Optional recovery conclusions require assumptions beyond those of the principal theorem.
-
-Whenever those assumptions are absent,
-
-the corresponding optional conclusions shall not be reported.
-
-This includes:
-
-- score-selected recovery;
-- perturbation stability;
-- localization interpretation;
-- end-to-end certification through E0.
-
-Failure of an optional recovery assumption does **not** invalidate the principal composition theorem.
-
-Only the optional conclusion is withheld.
-
----
-
-# 9.9 Scope Limitations
-
-Theorem 5 establishes mathematical composition only.
-
-It does **not** establish:
-
-- empirical correctness;
-- physical truth;
-- sensor validity;
-- calibration correctness;
-- evidence authenticity;
-- forensic admissibility;
-- legal interpretation;
-- operational decision making;
-- implementation correctness.
-
-These subjects remain outside the certified scope of this theorem unless established through additional verified mathematical contracts.
-
----
-
-# 9.10 Interpretation Limitations
-
-Certified mathematical recovery objects shall be interpreted only according to their declared mathematical meaning.
-
-In particular,
-
-```text
-compatible relation
-```
-
-does not establish
-
-```text
-physical existence;
-```
-
-```text
-claim image
-```
-
-does not establish
-
-```text
-physical truth;
-```
-
-```text
-report image
-```
-
-does not establish
-
-```text
-operational correctness.
-```
-
-No semantic strengthening beyond the certified mathematical interpretation is permitted.
-
----
-
-# 9.11 Certification Status Categories
-
-Every output certified under Theorem 5 shall belong to exactly one of the following categories.
-
----
-
-## Fully Certified
-
-All required assumptions,
-
-contracts,
-
-interfaces,
-
-and mappings have been established.
-
-The reported conclusion is mathematically certified.
-
----
-
-## Partially Certified
-
-Some recovery objects have been certified,
-
-while additional optional conclusions remain unavailable due to missing assumptions.
-
-The certified scope shall be reported explicitly.
-
----
-
-## Certified Enclosure
-
-Only certified inner and outer approximations have been established.
-
-Exact recovery has not been proved.
-
----
-
-## Certification Withheld
-
-One or more required assumptions,
-
-interfaces,
-
-contracts,
-
-or mappings have not been established.
-
-No corresponding certified conclusion shall be reported.
-
----
-
-# 9.12 Failure Propagation
-
-Certification failures propagate only through dependent mathematical objects.
-
-For example,
-
-```text
-failure of G
-
-⇒
-
-failure of Z_exact
-
-⇒
-
-failure of C_exact.
-```
-
-However,
-
-```text
-failure of ρ
-```
-
-does **not** invalidate
-
-```text
-K_exact
-
-or
-
-Z_exact.
-```
-
-Likewise,
-
-failure of optional assumptions shall invalidate only the corresponding optional recovery conclusions.
-
-Failure propagation therefore follows the certified mathematical dependency graph established by Theorem 5.
-
----
-
-# 9.13 Interpretation
-
-This section specifies the conditions under which mathematical certification is unavailable, limited, or intentionally withheld.
-
-These conditions complement the positive certification results established by the principal theorem.
-
-Together,
-
-Sections 6 through 9 completely characterize:
-
-- when certified composition is valid;
-- what mathematical objects are certified;
-- what certified outputs may be reported;
-- when certification shall be withheld;
-- the mathematical limits of every certified conclusion.
-
-The following section specifies the normative conformance requirements that an implementation or mathematical realization shall satisfy in order to claim compliance with Theorem 5.
-
-# 10. Conformance Requirements
-
-## 10.1 Purpose
-
-This section specifies the normative requirements that a mathematical realization, software implementation, verification system, or analytical workflow shall satisfy in order to claim conformance with Theorem 5.
-
-Conformance concerns only the mathematical requirements established by this theorem.
-
-Conformance does **not** establish:
-
-- empirical correctness;
-- implementation quality;
-- computational efficiency;
-- hardware reliability;
-- operational suitability.
-
-Rather, conformance establishes only that the implementation preserves the mathematical properties certified by Theorem 5.
-
----
-
-# 10.2 Conformance Principle
-
-A realization conforms to Theorem 5 if and only if every certified mathematical conclusion produced by the realization satisfies:
-
-- the mathematical objects defined in Section 2;
-- the assumptions defined in Section 3;
-- the certified contracts defined in Section 4;
-- the supporting lemmas established in Section 5;
-- the principal theorem established in Section 6;
-- the recovery properties established in Section 7;
-- the certified output requirements established in Section 8;
-- the certification limitations established in Section 9.
-
-No realization may claim conformance while violating any normative requirement established by this theorem.
-
----
-
-# 10.3 Mandatory Conformance Requirements
-
-Every conforming realization shall satisfy the following requirements.
-
----
-
-## R1 — Mathematical Object Preservation
-
-Every mathematical object shall preserve the definitions established in Section 2.
-
-No implementation may redefine:
-
-- candidate universes;
-- compatible relations;
-- claim mappings;
-- report mappings;
-- recovery objects.
-
----
-
-## R2 — Assumption Preservation
-
-Every certified conclusion shall identify the assumptions required for its validity.
-
-No implementation shall silently omit required assumptions.
-
----
-
-## R3 — Contract Preservation
-
-Every consumed theorem shall be interpreted exclusively through its certified mathematical contract.
-
-No implementation shall consume undocumented mathematical objects or uncertified intermediate results.
-
----
-
-## R4 — Interface Preservation
-
-Every interface shall preserve:
-
-- mathematical types;
-- semantic interpretation;
-- perturbation domains;
-- certified exactness classifications;
-- declared mathematical mappings.
-
----
-
-## R5 — Recovery Preservation
-
-Every certified recovery object shall satisfy the mathematical properties established by Theorem T5.
-
-In particular,
-
-```text
-K_exact(u)
-
-↓
-
-Z_exact(u)
-
-↓
-
-C_exact(u)
-```
-
-shall remain mathematically consistent.
-
----
-
-## R6 — Exactness Preservation
-
-Every implementation shall preserve certified enclosure relationships.
-
-Whenever
-
-```text
-X⁻ ⊆ X_exact ⊆ X⁺
-```
-
-is certified,
-
-no implementation shall invalidate that relationship.
-
----
-
-## R7 — Output Preservation
-
-Every certified output shall satisfy the reporting requirements of Section 8.
-
-No implementation shall report stronger conclusions than those mathematically established.
-
----
-
-## R8 — Failure Preservation
-
-Whenever certification must be withheld according to Section 9,
-
-the implementation shall withhold the corresponding certified conclusion.
-
-Failure conditions shall not be suppressed, ignored, or replaced.
-
----
-
-# 10.4 Optional Conformance
-
-The following capabilities require additional assumptions beyond the principal theorem.
-
----
-
-## Score-Selected Recovery
-
-Requires:
-
-- Theorem 4;
-- score-separation assumptions.
-
----
-
-## Perturbation Stability
-
-Requires:
-
-- Theorem 4;
-- perturbation-stability assumptions.
-
----
-
-## End-to-End Certification
-
-Requires:
-
-- certified E0 interface;
-- Assumption A20.
-
-Optional capabilities shall be reported separately from mandatory conformance.
-
----
-
-# 10.5 Non-Conforming Behavior
-
-A realization is non-conforming whenever it:
-
-- violates a required assumption;
-- consumes uncertified mathematical objects;
-- alters certified mathematical semantics;
-- suppresses required failure conditions;
-- strengthens certified conclusions without proof;
-- reports uncertified outputs as certified;
-- replaces certified recovery objects with undocumented alternatives.
-
-Any such behavior invalidates the corresponding claim of conformance.
-
----
-
-# 10.6 Conformance Levels
-
-Theorem 5 recognizes four conformance levels.
-
----
-
-## Level 1 — Core Composition
-
-Conforms to:
-
-- Sections 2–6.
-
-Provides:
-
-- certified mathematical composition.
-
----
-
-## Level 2 — Certified Recovery
-
-Additionally conforms to:
-
-- Section 7.
-
-Provides:
-
-- certified recovery hierarchy.
-
----
-
-## Level 3 — Certified Reporting
-
-Additionally conforms to:
-
-- Section 8.
-
-Provides:
-
-- normative certified outputs.
-
----
-
-## Level 4 — Complete Conformance
-
-Conforms to:
-
-- Sections 2–10.
-
-Provides:
-
-- complete compliance with the normative requirements of Theorem 5.
-
----
-
-# 10.7 Conformance Verification
-
-A claim of conformance shall demonstrate:
-
-- preservation of mathematical objects;
-- preservation of certified contracts;
-- preservation of mathematical mappings;
-- preservation of recovery objects;
-- preservation of exactness classifications;
-- preservation of certified outputs;
-- preservation of certification failure behavior.
-
-Verification may be performed through:
-
-- formal mathematical proof;
-- mechanized proof verification;
-- certified symbolic reasoning;
-- independently verified mathematical analysis.
-
-No specific verification methodology is required by this theorem provided the mathematical requirements are demonstrated.
-
----
-
-# 10.8 Conformance Declaration
-
-A realization claiming conformance with Theorem 5 shall identify:
-
-- the version of Theorem 5 implemented;
-- the consumed theorem versions;
-- optional interfaces employed;
-- optional recovery capabilities supported;
-- exactness classifications implemented;
-- limitations of the realization.
-
-Every declaration shall distinguish:
-
-- mandatory conformance;
-- optional conformance.
-
-No unsupported capability shall be declared.
-
----
-
-# 10.9 Interpretation
-
-This section establishes the normative requirements for claiming compliance with Theorem 5.
-
-Conformance certifies preservation of the mathematical framework established throughout this theorem.
-
-It does not certify implementation quality, computational performance, empirical validity, or operational suitability.
-
-Accordingly, a conforming realization is one that faithfully preserves the mathematical objects, assumptions, contracts, proofs, recovery hierarchy, certified outputs, and certification limitations established by Theorem 5.
-
-The following section concludes the theorem by summarizing its mathematical contribution, normative scope, and relationship to the broader Adaptive Waveform Correlation framework.
-
-# 11. Conclusion
-
-## 11.1 Purpose
-
-This section summarizes the mathematical contribution, normative scope, and intended interpretation of Theorem 5.
-
-Unlike the preceding sections, which establish definitions, assumptions, contracts, lemmas, proofs, recovery results, certified outputs, certification limitations, and conformance requirements, this section places those results into the context of the complete Adaptive Waveform Correlation (AWC) mathematical framework.
-
-No new mathematical assumptions, objects, mappings, lemmas, or conclusions are introduced herein.
-
-Instead, this section summarizes the mathematical architecture established throughout the theorem and clarifies its role within the AWC theorem series.
-
----
-
-# 11.2 Mathematical Contribution
-
-Theorem 5 establishes the mathematical theory of certified composition for the Adaptive Waveform Correlation framework.
-
-Its principal contribution is to prove that independently certified mathematical results may be composed into one coherent inference while preserving:
-
-- mathematical correctness;
-- semantic interpretation;
-- certified interfaces;
-- recovery-object integrity;
-- exactness classifications;
-- perturbation-domain restrictions.
-
-Unlike Theorems 1–4, which establish individual mathematical components of the inference framework, Theorem 5 establishes the mathematical conditions under which those independently certified components may operate together as one coherent certified mathematical system.
-
-Accordingly, Theorem 5 completes the formal mathematical composition architecture of the AWC theorem series.
-
----
-
-# 11.3 Summary of Established Results
-
-Collectively, Theorem 5 establishes:
-
-- a formal mathematical object model;
-- explicit composition assumptions;
-- certified mathematical contracts;
-- certified composition semantics;
-- interface compatibility requirements;
-- supporting composition lemmas;
-- the principal composition theorem;
-- certified recovery properties;
-- normative certified outputs;
-- certification failure conditions;
-- normative conformance requirements.
-
-Together, these results define the complete mathematical framework governing certified composition within the Adaptive Waveform Correlation inference framework.
-
----
-
-# 11.4 Relationship to the AWC Theorem Series
-
-Theorem 5 depends upon the mathematical foundations established by the preceding theorems.
-
-The complete progression of the framework is
-
-```text
-Measurements
-
-Theorem 1
-
-Certified relative measurements
-
-        │
-        ▼
-
-Candidates
-
-Theorem 2
-
-Finite compatible candidate construction
-
-        │
-        ▼
-
-Composition
-
-Theorem 5
-
-Compatible candidate–state composition
-
-        │
-        ▼
-
-Images
-
-Theorem 3
-
-Claim-image construction
-
-Report-image construction
-
-        │
-        ▼
-
-Refinement (Optional)
-
-Theorem 4
-
-Score-selected recovery
-
-Perturbation stability
-```
-
-Within this architecture,
-
-- Theorem 1 establishes certified measurement formation;
-- Theorem 2 establishes certified finite candidate construction;
-- Theorem 5 establishes certified mathematical composition;
-- Theorem 3 establishes certified claim-image and report-image construction;
-- Theorem 4 establishes optional mathematical refinement.
-
-Each theorem contributes an independent mathematical capability.
-
-No theorem replaces another.
-
-Each theorem preserves the certified conclusions established by its predecessors.
-
----
-
-# 11.5 Normative Scope
-
-Theorem 5 is a normative mathematical specification.
-
-It establishes:
-
-- mathematical definitions;
-- mathematical assumptions;
-- certified mathematical contracts;
-- mathematical proofs;
-- mathematical recovery objects;
-- certified composition semantics;
-- mathematical certification requirements;
-- mathematical conformance requirements.
-
-It does **not** establish:
-
-- empirical validation;
-- engineering implementation;
-- sensor performance;
+- forensic or legal admissibility;
+- implementation correctness;
 - computational complexity;
-- probabilistic guarantees;
-- operational policy;
-- legal interpretation.
-
-Such subjects require additional independently verified mathematical or engineering frameworks beyond the scope of this theorem.
+- empirical performance;
+- calibrated probability;
+- or operational suitability.
 
 ---
 
-# 11.6 Fundamental Principles
+## 2. Position in the AWC theorem series
 
-The mathematical philosophy established throughout Theorem 5 may be summarized by the following principles.
-
-```text
-Certification is conditional.
-```
+The theorem series is interpreted as:
 
 ```text
-Composition preserves certified conclusions.
+T1
+Conditional pairwise measurement formation
+        │
+        ▼
+T2
+Finite exact or conservative candidate construction
+        │
+        ▼
+C23
+Candidate-state compatibility evaluation
+        │
+        ▼
+T3
+Claim/report closure and classification
+        │
+        ├───────────────┐
+        │               │
+        │          optional T4
+        │     perturbation-stability certification
+        │               │
+        └───────┬───────┘
+                ▼
+T5
+End-to-end composition and contract preservation
+        │
+        ▼
+T6
+Conditional witness-cloud scaling
 ```
 
-```text
-Composition establishes no stronger conclusion
-than those justified by its assumptions.
-```
+The bridge `C23` is not a new theorem in this document. It is an explicitly declared interface connecting T2 candidate construction to the state-set and certificate objects consumed by T3.
 
-```text
-Recovery objects are preserved,
-not replaced.
-```
-
-```text
-Certified outputs remain traceable
-to certified mathematical objects.
-```
-
-```text
-Every certified conclusion possesses
-an explicit mathematical justification.
-```
-
-These principles govern every definition, lemma, theorem, corollary, certified output, and conformance requirement established by this specification.
+T5 occurs **after** T3 and optional T4. It does not construct T3’s input and does not replace any upstream theorem.
 
 ---
 
-# 11.7 Normative Summary
+## 3. Composition scope
 
-A realization conforming to Theorem 5 shall preserve, without semantic modification,
+### 3.1 Certified-measurement-to-report composition
 
-- mathematical objects;
-- mathematical assumptions;
-- certified mathematical contracts;
-- interface compatibility;
-- certified mappings;
-- recovery hierarchy;
-- exactness classifications;
-- certified outputs;
-- certification limitations;
-- conformance requirements.
+Without an E0 interface, the earliest certified object consumed by the composed inference is a valid T1 measurement interface.
 
-No conforming realization may strengthen, weaken, reinterpret, or silently replace the certified mathematical conclusions established by this theorem.
+The resulting scope is:
 
----
+```text
+certified measurement
+→ finite candidate domain
+→ compatible state/report analysis
+→ report output
+```
 
-# 11.8 Mathematical Significance
+This scope shall be described as:
 
-Theorem 5 does not introduce a new measurement model, ambiguity model, report-construction procedure, or perturbation analysis.
+```text
+certified-measurement-to-report composition
+```
 
-Instead, it establishes the mathematical principles required for independently certified inference components to function as one coherent certified mathematical system.
-
-Its contribution therefore lies not in expanding the mathematical vocabulary of the Adaptive Waveform Correlation framework, but in establishing the rigorous mathematical theory by which that vocabulary may be composed without loss of correctness, semantic consistency, certified guarantees, or traceability.
-
-Accordingly, Theorem 5 provides the certified mathematical composition layer that integrates the independently established inference capabilities of the Adaptive Waveform Correlation framework.
+It shall not be described as raw-observation-to-report composition.
 
 ---
 
-# 11.9 Final Interpretation
+### 3.2 Raw-observation-to-report composition
 
-Theorem 5 completes the formal mathematical architecture of the Adaptive Waveform Correlation theorem series.
+When a valid E0 interface is supplied, E0 must certify the transformation from declared raw observations to the exact T1 input objects.
 
-Beginning with certified mathematical measurements, progressing through finite candidate construction, compatible candidate–state composition, claim-image construction, report-image construction, and optional refinement, the framework provides a conditionally certified path from declared inputs to declared mathematical outputs.
+Only then may the composed scope be described as:
 
-Every certified conclusion established by Theorem 5 remains:
+```text
+certified raw-observation-to-report composition
+```
 
-- conditional upon its declared assumptions;
-- limited by its certified contracts;
-- traceable to explicit mathematical objects;
-- bounded by its declared perturbation domains;
-- constrained by its exactness classifications.
+E0 must preserve or explicitly transform:
 
-Every certified output therefore remains reproducible from the declared assumptions, certified contracts, mappings, recovery objects, and perturbation domains established by this theorem.
+- recording identity;
+- event identity;
+- observer identity;
+- time and frequency coordinates;
+- preprocessing history;
+- calibration references;
+- uncertainty bounds;
+- and provenance required by T1.
 
-No conclusion is established beyond those proved within this specification.
-
----
-
-# 11.10 Legacy of Theorem 5
-
-Theorem 5 intentionally separates:
-
-- mathematical correctness;
-- certification;
-- reporting;
-- implementation;
-- application.
-
-This separation permits future extensions of the Adaptive Waveform Correlation framework to introduce new measurement models, candidate-generation procedures, claim mappings, reporting semantics, optimization methods, perturbation analyses, or application-specific interpretations without modifying the mathematical composition principles established by this theorem.
-
-Accordingly, Theorem 5 serves as the stable mathematical composition foundation upon which future AWC mathematical extensions, implementation standards, verification frameworks, and application-specific theories may be constructed while remaining mathematically consistent with the certified composition principles established herein.
+The absence of E0 does not invalidate the principal T5 result. It limits only the earliest certified point of the composed chain.
 
 ---
 
-# 11.11 Closing Statement
+### 3.3 Optional T4 branch
 
-Theorem 5 establishes the mathematical foundations required for certified end-to-end inference composition within the Adaptive Waveform Correlation framework.
+T4 is optional.
 
-By integrating independently certified mathematical components through explicitly defined contracts, assumptions, mappings, interfaces, and recovery objects, it provides a rigorous, conservative, and traceable mathematical theory of composition that preserves mathematical correctness without extending the scope of any consumed theorem.
+The principal T5 composition requires valid T1, T2, C23, and T3 interfaces.
 
-Accordingly, Theorem 5 establishes the authoritative mathematical composition specification for the Adaptive Waveform Correlation inference framework and defines the conditions under which independently certified mathematical components may be composed into one rigorously certified inference while preserving their assumptions, semantic interpretations, certified guarantees, perturbation domains, exactness classifications, and mathematical limitations.
+When T4 is absent:
 
-Together with Theorems 1–4, this theorem completes the first-generation formal mathematical foundation of the Adaptive Waveform Correlation framework and provides a stable basis upon which future mathematical developments, independently verified implementations, application-specific models, and international standardization efforts may be constructed without altering the certified composition principles established herein.
+- the T1–T3 composition may remain valid;
+- no candidate-stability, report-class-stability, or local-state-stability conclusion may be reported as T4-certified;
+- and `Record_5` must record that no T4 interface was consumed.
 
+When T4 is present, its conclusions may be appended only if its domain, candidate identities, report maps, objective, gauge treatment, and perturbation semantics are compatible with the T1–T3 chain.
+
+A missing or invalid T4 interface withholds stability conclusions. It does not invalidate an otherwise valid T1–T3 composition.
+
+---
+
+## 4. Interface model
+
+### 4.1 General interface contract and interface slots
+
+A supplied interface is represented abstractly by:
+
+```text
+I_k
+=
+(
+  id_k,
+  version_k,
+  inputs_k,
+  outputs_k,
+  obligations_k,
+  assumptions_k,
+  domain_k,
+  model_k,
+  coordinates_k,
+  units_k,
+  gauges_k,
+  representation_type_k,
+  certificate_type_k,
+  conformance_k,
+  applicability_k,
+  result_status_k,
+  completeness_k,
+  provenance_k
+)
+```
+
+where:
+
+- `id_k` identifies the theorem or bridge interface;
+- `version_k` identifies the exact document or schema revision;
+- `inputs_k` and `outputs_k` identify the mathematical objects consumed and produced;
+- `obligations_k` identifies the enumeration, pruning, coverage, search, closure, stability, and reporting obligations applicable to the interface;
+- `assumptions_k` is the applicable assumption ledger;
+- `domain_k` is the domain on which the interface is interpreted;
+- `model_k` identifies the equations, constraints, and branch semantics;
+- `coordinates_k` and `units_k` identify mathematical coordinates and dimensions;
+- `gauges_k` identifies gauge conventions or quotient treatment;
+- `representation_type_k` assigns a representation type to each output;
+- `certificate_type_k` is a partial map assigning a mathematical certificate type only to outputs that are actually certified;
+- `conformance_k` records whether the supplied interface conforms to its declared contract;
+- `applicability_k` records whether the supplied conformant interface applies to the declared request;
+- `result_status_k` assigns an inference-result status to each output;
+- `completeness_k` assigns a completeness status to each declared obligation;
+- and `provenance_k` identifies the source objects and transformations required for audit.
+
+The output-indexed maps are:
+
+```text
+representation_type_k
+:
+outputs_k → RepresentationType
+```
+
+```text
+certificate_type_k
+:
+outputs_k ⇀ CertificateType
+```
+
+```text
+result_status_k
+:
+outputs_k → ResultStatus
+```
+
+and:
+
+```text
+completeness_k
+:
+obligations_k → CompletenessStatus
+```
+
+The partial map `certificate_type_k` is undefined for an uncertified heuristic artifact.
+
+Because an absent interface cannot carry its own presence field, each theorem or interface position is represented by an interface slot:
+
+```text
+Slot_k
+=
+(
+  presence_k,
+  interface_k?
+)
+```
+
+with:
+
+```text
+presence_k
+∈
+{
+  PRESENT,
+  NOT_SUPPLIED,
+  MISSING_REQUIRED
+}
+```
+
+The slot semantics are:
+
+```text
+Slot_k = (PRESENT, I_k)
+```
+
+for a supplied interface;
+
+```text
+Slot_k = (MISSING_REQUIRED, ∅)
+```
+
+for an absent mandatory interface; and:
+
+```text
+Slot_k = (NOT_SUPPLIED, ∅)
+```
+
+for an absent optional interface.
+
+`NOT_SUPPLIED` is permitted only for optional slots.
+
+For a present interface:
+
+```text
+conformance_k
+∈
+{
+  CONFORMANT,
+  NONCONFORMANT,
+  NOT_EVALUATED
+}
+```
+
+Conformance is evaluated only when `presence_k = PRESENT`.
+
+For a present conformant interface:
+
+```text
+applicability_k
+∈
+{
+  APPLICABLE,
+  NOT_APPLICABLE,
+  UNRESOLVED
+}
+```
+
+A supplied interface may be conformant but not applicable to the declared request.
+
+Output result status is output-level:
+
+```text
+ResultStatus
+=
+{
+  EXACT,
+  CERTIFIED_INNER,
+  CERTIFIED_OUTER,
+  CERTIFIED_TWO_SIDED,
+  CONSERVATIVE,
+  HEURISTIC,
+  UNRESOLVED,
+  FAILED,
+  NOT_APPLICABLE
+}
+```
+
+Obligation completeness is recorded separately:
+
+```text
+CompletenessStatus
+=
+{
+  COMPLETE,
+  CERTIFIED_PARTIAL,
+  INCOMPLETE,
+  UNRESOLVED,
+  NOT_APPLICABLE
+}
+```
+
+An interface is not conformant merely because its values can be serialized or numerically evaluated.
+
+### 4.2 Assumption ledger
+
+Let:
+
+```text
+A_k
+```
+
+be the assumptions required by interface `I_k`.
+
+The mandatory composed assumption ledger is:
+
+```text
+A_5
+=
+A_1
+∪
+A_2
+∪
+A_23
+∪
+A_3
+```
+
+Optional assumptions are added only when the corresponding optional output or obligation belongs to:
+
+```text
+Used_opt(J,R_5)
+```
+
+Thus:
+
+```text
+A_5^(4)
+=
+A_5 ∪ A_4
+```
+
+only when a T4 output or obligation is used by the request, and:
+
+```text
+A_5^(0)
+=
+A_5 ∪ A_0
+```
+
+only when an E0 output or obligation is used by the request.
+
+`Record_5` must preserve all assumptions in the request-relative ledger, and any successful `Cert_5` must reference that preserved ledger. An assumption may not be omitted merely because a downstream stage does not restate it.
+
+### 4.3 Common composition domain
+
+Let:
+
+```text
+U_*
+```
+
+be the common scenario space in which the composed inference is interpreted.
+
+Every mandatory interface domain must be represented as a subset of that same scenario space:
+
+```text
+U_k ⊆ U_*
+```
+
+with shared scenario identity, event identity, observer identity, branch identity, and coordinate semantics.
+
+If an interface is originally expressed in another domain, an injective, identity-preserving embedding into `U_*` must be certified before T5 composition. Distinct source scenarios may not be collapsed into one scenario in `U_*`. After that certification, the interface domain is identified with its image in `U_*`.
+
+The mandatory composition domain is a declared nonempty set:
+
+```text
+U_5
+⊆
+U_1 ∩ U_2 ∩ U_23 ∩ U_3
+```
+
+When T4 is consumed, the stability-qualified composition domain is:
+
+```text
+U_5^(4)
+⊆
+U_5 ∩ U_4
+```
+
+When E0 is consumed, the raw-observation-qualified composition domain is:
+
+```text
+U_5^(0)
+⊆
+U_5 ∩ U_0
+```
+
+No interface conclusion may be extended outside its certified domain by composition.
+
+If the applicable intersection is empty or cannot be certified nonempty, the requested composition is non-applicable or unresolved.
+
+### 4.4 Representation and certificate classes
+
+Representation type, certificate type, and result status are distinct.
+
+#### Representation types
+
+```text
+RepresentationType
+=
+{
+  CANDIDATE_DOMAIN,
+  STATE_SET,
+  REPORT_IMAGE,
+  SCALAR_QUANTITY,
+  LOGICAL_STATUS,
+  HEURISTIC_ARTIFACT
+}
+```
+
+#### Set certificate types
+
+```text
+ExactSet
+CertifiedInnerSet
+CertifiedOuterSet
+CertifiedTwoSidedEnclosure
+```
+
+#### Scalar certificate types
+
+```text
+ExactScalar
+CertifiedLowerBound
+CertifiedUpperBound
+CertifiedIntervalBound
+```
+
+#### Logical and status certificate types
+
+```text
+ExactLogicalCertificate
+StatusPreservationCertificate
+```
+
+A heuristic artifact has:
+
+```text
+representation_type = HEURISTIC_ARTIFACT
+result_status = HEURISTIC
+```
+
+and no `certificate_type`.
+
+The following preservation rules apply:
+
+1. `ExactSet` may be deliberately weakened to a certified inner set, certified outer set, or certified two-sided enclosure.
+2. `CertifiedInnerSet` must remain labeled as inner and may not be interpreted as an outer enclosure or exact set.
+3. `CertifiedOuterSet` must remain labeled as outer and may not be interpreted as an inner set or exact set.
+4. A `CertifiedTwoSidedEnclosure` is valid only when the certified inner and outer objects refer to the same target set and satisfy the declared containment relation.
+5. `ExactScalar`, `CertifiedLowerBound`, `CertifiedUpperBound`, and `CertifiedIntervalBound` must preserve the quantity, direction, units, and domain they certify.
+6. A heuristic artifact may be transported and audited, but its substantive proposition is not theorem-certified.
+7. `UNRESOLVED` and `FAILED` are result statuses, not certificate types.
+
+Certified inner and certified outer objects are generally directionally different and need not be comparable.
+
+Composition may preserve a certificate type or deliberately weaken it. Composition may not upgrade or directionally reinterpret a type without a separate proof.
+
+---
+
+### 4.5 Interface presence, conformance, applicability, and output status
+
+Presence, conformance, applicability, and output-result status are separate dimensions.
+
+For every interface slot `Slot_k`:
+
+```text
+presence_k
+∈
+{
+  PRESENT,
+  NOT_SUPPLIED,
+  MISSING_REQUIRED
+}
+```
+
+For every supplied interface `I_k`:
+
+```text
+conformance_k
+∈
+{
+  CONFORMANT,
+  NONCONFORMANT,
+  NOT_EVALUATED
+}
+```
+
+For every supplied conformant interface `I_k` relative to request `R_5`:
+
+```text
+applicability_k
+∈
+{
+  APPLICABLE,
+  NOT_APPLICABLE,
+  UNRESOLVED
+}
+```
+
+For every output `y ∈ outputs_k`:
+
+```text
+result_status_k(y)
+∈
+{
+  EXACT,
+  CERTIFIED_INNER,
+  CERTIFIED_OUTER,
+  CERTIFIED_TWO_SIDED,
+  CONSERVATIVE,
+  HEURISTIC,
+  UNRESOLVED,
+  FAILED,
+  NOT_APPLICABLE
+}
+```
+
+A mandatory slot must be `PRESENT`, and its interface must be `CONFORMANT` and `APPLICABLE`, for successful composition.
+
+A supplied conformant interface may contain outputs with different representation types, certificate types, result statuses, and completeness states. Eligibility is determined only for the dependency-closed outputs and obligations actually used by the request.
+
+A missing required slot, a nonconformant mandatory interface, or unresolved mandatory applicability prevents a successful T5 composition certificate, although `Evaluate_5` still produces an audit record.
+
+### 4.6 Composition request, dependency closure, and successful-certificate eligibility
+
+A composition request is:
+
+```text
+R_5
+=
+(
+  request_id,
+  requested_scope,
+  requested_semantic_conclusions,
+  requested_meta_statuses,
+  selected_outputs,
+  required_obligations,
+  unresolved_policy
+)
+```
+
+where:
+
+- `requested_scope` identifies certified-measurement-to-report or certified raw-observation-to-report composition;
+- `requested_semantic_conclusions` identifies the mathematical conclusions requested from T5;
+- `requested_meta_statuses` identifies requested presence, conformance, applicability, completeness, unresolved-status, provenance, or optional-interface statements;
+- `selected_outputs` identifies the upstream outputs proposed as direct support;
+- `required_obligations` identifies the upstream completeness obligations explicitly named by the request;
+- and `unresolved_policy` states whether unresolved outputs may be preserved as meta-status results.
+
+Define the request-relative dependency closure:
+
+```text
+Used(J,R_5)
+=
+DependencyClosure_J
+(
+  selected_outputs
+  ∪
+  required_obligations
+)
+```
+
+`Used(J,R_5)` is the least dependency-closed set containing the request-selected outputs and obligations.
+
+It must also contain:
+
+- every upstream output required to derive a selected output;
+- every supporting assumption;
+- every identity, unit, coordinate, gauge, model, and constraint mapping used;
+- every coverage and completeness obligation required by a requested conclusion;
+- every provenance object required to trace the derivation;
+- and every optional output or obligation on which a requested optional conclusion depends.
+
+Partition the closure as:
+
+```text
+Used_mand(J,R_5)
+```
+
+for items from mandatory interfaces, and:
+
+```text
+Used_opt(J,R_5)
+```
+
+for items from supplied optional interfaces.
+
+Every item in `Used_mand(J,R_5)` must satisfy mandatory eligibility.
+
+Every item in `Used_opt(J,R_5)` must satisfy the same output-level and obligation-level eligibility rules for every requested conclusion that uses it.
+
+Failure of an unused optional output does not affect mandatory composition. Failure of a used optional output prevents only the requested conclusions that depend on it.
+
+A semantic conclusion may appear in `Cert_5` only when every used supporting output is eligible under the following rule:
+
+| Result status of a used output | Eligibility for a semantic conclusion |
+|---|---|
+| `EXACT` | Permitted |
+| `CERTIFIED_INNER` | Permitted with the original inner certificate type preserved |
+| `CERTIFIED_OUTER` | Permitted with the original outer certificate type preserved |
+| `CERTIFIED_TWO_SIDED` | Permitted with the original two-sided certificate type preserved |
+| `CONSERVATIVE` | Permitted with conservative status preserved |
+| `HEURISTIC` | Not permitted as a theorem-certified premise or conclusion; record only |
+| `UNRESOLVED` | Not permitted as a premise for a substantive semantic conclusion; may be preserved only as a requested meta-status |
+| `FAILED` | Not permitted |
+| `NOT_APPLICABLE` | Not permitted |
+
+Every used obligation must have a completeness status sufficient for the specific requested semantic conclusion.
+
+A heuristic artifact may appear in `Record_5` with its representation type, provenance, and status preserved, but it may not support a substantive semantic conclusion.
+
+An unresolved output may appear in the meta-status component of `Cert_5` only when:
+
+1. the request explicitly permits unresolved meta-status results;
+2. the unresolved output is not used to support a substantive semantic conclusion;
+3. and every requested semantic conclusion is independently supported by eligible outputs.
+
+A used output with status `FAILED`, `NOT_APPLICABLE`, or `HEURISTIC`, or an insufficiently complete used obligation, prevents the affected requested semantic conclusion from being certified.
+
+Optional-interface outputs affect only conclusions that use those outputs, unless the optional interface altered a mandatory object.
+
+## 5. Required interfaces
+
+### 5.1 T1 measurement interface
+
+The T1 interface must identify every consumed observation by the declared tuple or equivalent identifier containing:
+
+- observer pair;
+- physical event;
+- frequency;
+- path or propagation branch;
+- calibration branch;
+- phase-support branch;
+- and dependency metadata.
+
+For each observation, the interface must preserve:
+
+- the corrected pairwise phase support;
+- the associated bounded relative propagation-time-difference interpretation;
+- timing and frequency coordinates;
+- units;
+- circular error bounds;
+- admissibility status;
+- and all T1 assumptions required for downstream use.
+
+A per-observer phase value is not a substitute for the T1 pairwise same-event interface.
+
+---
+
+### 5.2 T2 candidate-domain interface
+
+The T2 interface must identify:
+
+- the finite branch set `B`;
+- the observation index sets `A_b`;
+- exact cycle sets `Nₐ,b`, when certified;
+- conservative outward-rounded cycle sets `N̂ₐ,b`, when required;
+- the exact raw domain `H_raw`;
+- the conservative raw domain `Ĥ_raw`;
+- and the compatible state sets defined by T2.
+
+The branch-aware exact raw domain is:
+
+```text
+H_raw
+=
+⋃_{b∈B}
+(
+  {b}
+  ×
+  ∏_{a∈A_b} Nₐ,b
+)
+```
+
+with:
+
+```text
+H_raw ⊆ Ĥ_raw
+```
+
+when conservative endpoint handling is required.
+
+Using T2’s declared definitions:
+
+```text
+H_cons
+=
+{
+  h ∈ H_raw :
+  S_h^(2) ≠ ∅
+}
+```
+
+and:
+
+```text
+Ĥ_cons
+=
+{
+  h ∈ Ĥ_raw :
+  S_h^(2) ≠ ∅
+}
+```
+
+Under T2’s stated assumptions:
+
+```text
+Ĥ_cons = H_cons
+```
+
+T5 consumes this equality as a T2 result. T5 does not re-prove it and does not reinterpret `Ĥ_cons` as an unresolved implementation queue.
+
+---
+
+### 5.3 C23 candidate-state compatibility interface
+
+The required bridge interface is published separately as:
+
+```text
+Interface ID: AWC-IF-C23
+Version: 0.1
+Title: Candidate-State Compatibility Evaluation Interface
+Repository file:
+Interfaces/AWC-IF-C23_Candidate-State_Compatibility_Evaluation.md
+```
+
+That file is the versioned interface contract. This section summarizes only the C23 objects required by T5.
+
+C23 connects T2 objects to the exact or certified-enclosure objects required by T3.
+
+Let:
+
+```text
+D_analysis ⊆ Ĥ_raw
+```
+
+be the declared analysis domain.
+
+C23 must provide a coverage certificate showing that every candidate in:
+
+```text
+Ĥ_raw \ D_analysis
+```
+
+is handled through at least one permitted path:
+
+- certified exclusion from `H_raw`;
+- certified compatibility emptiness;
+- certified equivalence to an analyzed candidate that preserves the applicable compatible-state, claim-map, resolution-map, and report-image semantics;
+- or a T3-valid report-preserving enclosure or pruning certificate.
+
+For every:
+
+```text
+h = (b,n_b) ∈ D_analysis
+```
+
+let:
+
+```text
+S_h^(2)
+```
+
+be the compatible state set established by the T2 constraints.
+
+C23 defines only additional declared compatibility constraints through:
+
+```text
+F_h^(23)(θ)
+```
+
+and:
+
+```text
+S_h^(23)
+=
+{
+  θ ∈ S_h^(2) :
+  F_h^(23)(θ)
+}
+```
+
+Therefore:
+
+```text
+S_h^(23) ⊆ S_h^(2)
+```
+
+C23 may refine but may not enlarge or silently redefine the T2-compatible state set.
+
+C23 may provide certified bounds:
+
+```text
+W_h ⊆ S_h^(23) ⊆ O_h
+```
+
+where:
+
+- `W_h` is a certified feasible witness set;
+- `O_h` is a certified outer state enclosure;
+- and `O_h = ∅` certifies `S_h^(23) = ∅`.
+
+T5 consumes the C23 version, candidate coverage, state-refinement relation, pruning bases, per-output representation and certificate types, per-output result statuses, obligation-level completeness, and provenance.
+
+T5 does not define, execute, or replace the C23 compatibility procedure.
+
+### 5.4 T3 report-closure interface
+
+The T3 interface must identify:
+
+- the declared analysis domain `D_analysis` and its coverage certificate;
+- exact refined compatible state sets `S_h^(23)` or certified bounds associated with them;
+- gauge or physical-equivalence treatment;
+- claim maps;
+- resolution maps;
+- per-candidate exact report images `R_h`, when available;
+- certified inner report images `R_h⁻`;
+- certified outer report enclosures `R_h⁺`;
+- aggregate report-class bounds;
+- pruning certificates;
+- search-completeness status;
+- and closure or unresolved status.
+
+For the full-domain certificate:
+
+```text
+C⁻ ⊆ C_rep ⊆ C⁺
+```
+
+and when:
+
+```text
+C⁻ = C⁺
+```
+
+T3 establishes:
+
+```text
+C_rep = C⁻ = C⁺
+```
+
+at the declared resolution and relative to the declared model, candidate domain, gauge, claim map, and resolution map.
+
+T5 preserves that conclusion. It does not strengthen report-level closure into candidate-level or exact state-set closure.
+
+---
+
+### 5.5 Optional T4 stability interface
+
+When supplied, the T4 interface must identify:
+
+- the perturbation domain `U_4`;
+- the candidate domain used by T4;
+- the objective or score family;
+- candidate-score or report-class-score envelopes;
+- report-class maps;
+- gauge-fixed local-state conventions, when applicable;
+- certified stability radii or domains;
+- and the stability conclusion, certificate type, result status, assumptions, and domain established.
+
+The T4 interface must be linked to the same candidate identities and report semantics used by T3.
+
+A T4-selected candidate may coexist with multiple admissible T3 candidates. T5 must preserve that distinction.
+
+---
+
+### 5.6 Optional E0 raw-observation interface
+
+When supplied, E0 must identify:
+
+- raw recording objects;
+- preprocessing operations;
+- time and frequency transformations;
+- event-window selection;
+- calibration transformations;
+- uncertainty propagation;
+- and provenance linking its outputs to T1 inputs.
+
+E0 may be consumed only when its outputs are certified to satisfy the T1 input contract.
+
+---
+
+## 6. Composition compatibility conditions
+
+The following conditions are sufficient for T5 composition.
+
+### C1 — Interface-slot state and request-relative admissibility
+
+Every mandatory slot must satisfy:
+
+```text
+Slot_k = (PRESENT, I_k)
+```
+
+and every corresponding interface must satisfy:
+
+```text
+conformance_k = CONFORMANT
+```
+
+and:
+
+```text
+applicability_k = APPLICABLE
+```
+
+for the declared request.
+
+For the declared pair `(J,R_5)`, each output and obligation in:
+
+```text
+Used(J,R_5)
+```
+
+must satisfy the eligibility requirements of Section 4.6.
+
+A missing required slot, a nonconformant mandatory interface, a non-applicable mandatory interface, or unresolved mandatory applicability prevents successful composition.
+
+A used output with status `FAILED`, `NOT_APPLICABLE`, or `HEURISTIC`, or a used obligation lacking sufficient completeness, prevents the affected substantive conclusion from appearing in `Cert_5`.
+
+A used `UNRESOLVED` output may be preserved only as a requested meta-status under:
+
+```text
+COMPOSABLE_WITH_UNRESOLVED_OUTPUTS
+```
+
+and may not support a substantive semantic conclusion.
+
+### C2 — Version identity
+
+The exact theorem and interface versions are declared.
+
+A composition must not silently combine:
+
+- incompatible theorem drafts;
+- renamed objects with changed semantics;
+- changed endpoint conventions;
+- changed report maps;
+- or changed branch definitions.
+
+Version translation requires a separately declared compatibility mapping.
+
+---
+
+### C3 — Object identity
+
+Objects passed across interfaces must preserve identity.
+
+In particular:
+
+- each T1 observation must map to the intended T2 observation index;
+- each T2 branch must map to the same C23 and T3 branch;
+- each candidate `h = (b,n_b)` must retain the same branch and integer-vector identity;
+- and each T3 report object must retain the same claim and resolution semantics in T5.
+
+Relabeling is permitted only through an explicit bijection or certified identity-preserving map.
+
+---
+
+### C4 — Unit and coordinate compatibility
+
+All shared quantities must use compatible:
+
+- time coordinates;
+- frequency coordinates;
+- spatial coordinates;
+- angular conventions;
+- sign conventions;
+- units;
+- and clock-scale transformations.
+
+A unit conversion is part of the interface and must be explicit, reproducible, and uncertainty-preserving.
+
+---
+
+### C5 — Model and constraint compatibility
+
+The propagation, clock, geometry, calibration, path, branch, and dependency models used across interfaces must be identical or linked by a certified conservative refinement.
+
+A downstream interface may add declared constraints, producing a subset of an upstream state set.
+
+It may not silently:
+
+- remove an upstream constraint;
+- replace a model;
+- merge distinct branches;
+- or reinterpret an observation.
+
+---
+
+### C6 — Candidate-domain coverage
+
+The T3 analysis domain must be a declared subset:
+
+```text
+D_analysis ⊆ Ĥ_raw
+```
+
+Every candidate outside `D_analysis` must be covered by a certified path permitted by C23 and T3:
+
+- certified exclusion;
+- certified compatibility emptiness;
+- certified equivalence preserving the applicable compatible-state, claim-map, resolution-map, and report-image semantics;
+- or a report-preserving enclosure or pruning certificate.
+
+A finite domain is not a complete search merely because it is finite.
+
+A successful T5 certificate must preserve the coverage certificate and its completeness status.
+
+### C7 — State-set identity and refinement
+
+For each analyzed candidate, the T3 state set or enclosure must refer to:
+
+```text
+S_h^(23)
+=
+{
+  θ ∈ S_h^(2) :
+  F_h^(23)(θ)
+}
+```
+
+or to a certified bound on that same set.
+
+The refinement relation:
+
+```text
+S_h^(23) ⊆ S_h^(2)
+```
+
+must be preserved.
+
+An optimizer output, sample cloud, or finite collection of points may not replace `S_h^(23)` unless an independent exhaustiveness proof establishes that replacement.
+
+### C8 — Gauge compatibility
+
+Gauge conventions and physical-equivalence relations must be preserved.
+
+A gauge-fixed coordinate estimate must not be interpreted as a unique physical state unless the applicable quotient or gauge conditions establish that conclusion.
+
+---
+
+### C9 — Claim and resolution-map identity
+
+The claim maps, report maps, and resolution maps used by T3 and optional T4 must be identical or linked by an explicit certified mapping.
+
+A change in report resolution constitutes a new reporting contract.
+
+---
+
+### C10 — Target identity, representation, certificate, and result-status preservation
+
+Every output must preserve the identity of its target semantic object or explicitly record the certified derivation from its source object.
+
+Its representation semantics must be preserved under the recorded transformation.
+
+Its certificate type and result status must either:
+
+- be preserved unchanged; or
+- be transformed together through an explicit valid weakening relation recorded in `Record_5`.
+
+Write:
+
+```text
+(cert_old, status_old)
+⪰
+(cert_new, status_new)
+```
+
+only when both pairs certify or represent the same target claim, set, quantity, or declared image under the recorded transformation, and when the weakening is valid for the applicable domain, assumptions, direction, and semantic meaning.
+
+Examples of valid weakening include:
+
+```text
+(ExactSet, EXACT)
+⪰
+(CertifiedOuterSet, CERTIFIED_OUTER)
+```
+
+and:
+
+```text
+(ExactSet, EXACT)
+⪰
+(CertifiedInnerSet, CERTIFIED_INNER)
+```
+
+when the required containment relation is certified and the weakening is explicitly recorded.
+
+No composition step may:
+
+- convert a certified inner set into an outer set without a separate proof of the new outer relation;
+- convert a certified outer set into an inner set without a separate proof of the new inner relation;
+- convert either one-sided certificate into an exact set;
+- claim a two-sided enclosure unless both directions refer to the same target object and the required containment relation is certified;
+- convert an unresolved status into emptiness, exactness, or closure;
+- convert a heuristic artifact into a probability, certified bound, or theorem-certified conclusion;
+- convert a local certificate into a global certificate;
+- or convert a conditional conclusion into an unconditional one.
+
+Any deliberate weakening must remain explicitly labeled.
+
+### C11 — Completeness preservation
+
+Enumeration, pruning, compatibility, report-image, perturbation, and search-completeness statuses must remain distinct and traceable.
+
+A downstream stage may resolve an upstream unresolved item only by producing the required separate proof or certificate.
+
+Composition alone does not resolve it.
+
+---
+
+### C12 — Assumption preservation
+
+All assumptions required by the consumed conclusions remain attached to the composed conclusion.
+
+An assumption may be discharged only through an explicit proof that establishes it.
+
+---
+
+### C13 — Optional-interface isolation
+
+The absence or failure of an optional interface affects only the conclusions that depend on that interface.
+
+In particular:
+
+- absent T4 means no T4 stability conclusion;
+- absent E0 means no raw-observation-to-report claim.
+
+Optional-interface failure must not invalidate independent mandatory conclusions unless the failed interface altered a mandatory object.
+
+---
+
+### C14 — Request, provenance, and audit-record preservation
+
+Define:
+
+```text
+AuditPreserved_5
+(
+  J,
+  R_5,
+  Record_5
+)
+```
+
+to mean that `Record_5` faithfully represents:
+
+- the declared request `R_5`;
+- every interface-slot presence state;
+- consumed interface identifiers and versions;
+- interface conformance and applicability states;
+- per-output representation types;
+- per-output certificate types when applicable;
+- per-output result statuses;
+- obligation-level completeness statuses;
+- input object identifiers;
+- dependency-closure membership;
+- transformations and derivations;
+- assumptions;
+- scenario identity;
+- domains;
+- certificate-type and status transitions;
+- and provenance.
+
+`Evaluate_5` must produce an audit record:
+
+```text
+Record_5
+```
+
+for every syntactically evaluable pair `(J,R_5)`.
+
+A successful composition certificate:
+
+```text
+Cert_5
+=
+(
+  Q_sem,
+  M_meta
+)
+```
+
+may be issued only when:
+
+1. every mandatory slot is present;
+2. every mandatory interface is conformant and applicable to the request;
+3. every output and obligation in `Used(J,R_5)` is eligible under Section 4.6;
+4. the common composition domain is certified nonempty;
+5. every applicable condition C1–C13 holds;
+6. `AuditPreserved_5(J,R_5,Record_5)` holds;
+7. every requested semantic conclusion has a valid T5 support derivation;
+8. and the certificate status is `COMPOSABLE` or `COMPOSABLE_WITH_UNRESOLVED_OUTPUTS`.
+
+Here:
+
+- `Q_sem` is the set of theorem-certified semantic mathematical conclusions;
+- and `M_meta` is the faithful preservation of requested presence, conformance, applicability, completeness, unresolved-status, optional-interface, provenance, and audit conclusions.
+
+## 7. Principal theorem
+
+### 7.1 Interface slots and composition request
+
+Let:
+
+```text
+J
+=
+(
+  Slot_1,
+  Slot_2,
+  Slot_23,
+  Slot_3,
+  Slot_4,
+  Slot_0
+)
+```
+
+be the supplied interface-slot tuple, and let `R_5` be the declared composition request from Section 4.6.
+
+Define:
+
+```text
+InterfaceTuples
+```
+
+as the set of syntactically representable interface-slot tuples, and:
+
+```text
+CompositionRequests
+```
+
+as the set of syntactically valid T5 requests.
+
+---
+
+### 7.2 Evaluation and composition operators
+
+Define the total audit evaluator:
+
+```text
+Evaluate_5
+:
+InterfaceTuples × CompositionRequests
+→
+Record_5
+```
+
+Thus:
+
+```text
+Evaluate_5(J,R_5)
+```
+
+returns an audit record for every syntactically evaluable request, including missing, nonconformant, non-applicable, failed, noncomposable, and unresolved-evaluation requests.
+
+Define the eligible composition domain:
+
+```text
+Eligible_5
+⊆
+InterfaceTuples × CompositionRequests
+```
+
+as the set of pairs `(J,R_5)` for which:
+
+- all mandatory slots are present;
+- all mandatory interfaces are `CONFORMANT` and `APPLICABLE`;
+- every output and obligation in the dependency-closed set `Used(J,R_5)` is eligible under Section 4.6;
+- the common domain `U_5` is certified nonempty;
+- every applicable condition C1–C13 holds;
+- `AuditPreserved_5(J,R_5,Record_5)` holds for the evaluation record;
+- and every requested semantic conclusion has a valid T5 support derivation.
+
+Define the successful composition operator:
+
+```text
+Compose_5
+:
+Eligible_5
+→
+Cert_5
+```
+
+For an eligible pair `(J,R_5)`:
+
+```text
+Evaluate_5(J,R_5)
+```
+
+returns `Record_5` containing:
+
+```text
+Cert_5 = Compose_5(J,R_5)
+```
+
+For a pair outside `Eligible_5`, `Evaluate_5` still returns `Record_5`, but `Compose_5` is not defined and no successful `Cert_5` is issued.
+
+---
+
+### 7.3 Upstream theory ledger
+
+Let:
+
+```text
+Γ_upstream
+```
+
+be the request-relative preserved ledger containing:
+
+- all assumptions in the dependency closure;
+- all valid upstream semantic conclusions in the dependency closure;
+- all common-domain restrictions;
+- all object-identity mappings;
+- all model and constraint mappings;
+- all interface-slot presence states;
+- all interface conformance and applicability states;
+- all per-output representation types;
+- all per-output certificate types when applicable;
+- all per-output result statuses;
+- and all obligation-level completeness information
+
+from the interfaces and dependencies in `Used(J,R_5)`.
+
+---
+
+### 7.4 Semantic and meta components of the certificate
+
+A successful certificate is:
+
+```text
+Cert_5
+=
+(
+  Q_sem,
+  M_meta
+)
+```
+
+where:
+
+```text
+Q_sem
+```
+
+contains only theorem-certified semantic mathematical conclusions about candidate domains, state sets, report images, stability objects, or other declared mathematical objects.
+
+The component:
+
+```text
+M_meta
+```
+
+contains faithful statements about:
+
+- interface-slot presence;
+- interface conformance;
+- interface applicability;
+- result statuses;
+- obligation completeness;
+- unresolved outputs;
+- optional-interface presence or absence;
+- provenance;
+- transformations;
+- dependency closure;
+- certificate lineage;
+- and certificate status.
+
+Meta-status statements are certified as faithful records of the consumed interfaces and evaluation process. They are not interpreted as physical propositions about every scenario in `U_5`.
+
+---
+
+### 7.5 Entailment on the composition domain
+
+For every:
+
+```text
+Q ∈ Q_sem
+```
+
+the notation:
+
+```text
+Γ_upstream ⊨_{U_5} Q
+```
+
+means:
+
+> For every admissible scenario `u ∈ U_5`, if `u` satisfies every preserved assumption and upstream semantic conclusion in `Γ_upstream`, then `u` satisfies `Q`.
+
+This is a conditional semantic entailment relative to the declared model and composition domain. It does not establish that the model or assumptions are empirically true.
+
+Meta-status statements in `M_meta` satisfy a different requirement:
+
+```text
+M_meta
+=
+faithful preservation of the applicable interface metadata,
+slot presence, conformance, applicability, statuses, obligations,
+request parameters, dependency closure, and provenance.
+```
+
+---
+
+### 7.6 Permitted composition operations
+
+`Compose_5` may form a semantic conclusion only through:
+
+1. identity-preserving relabeling;
+2. explicit certified unit or coordinate conversion;
+3. domain restriction;
+4. logical conjunction of preserved semantic conclusions;
+5. projection or omission of variables that does not strengthen the projected claim;
+6. certified image mapping through a declared claim or resolution map;
+7. substitution through a certified identity or purpose-preserving equivalence;
+8. preservation of conservative, inner, outer, or two-sided semantic status;
+9. explicit valid weakening of a certificate-type and result-status pair;
+10. and deliberate weakening of a claim.
+
+`Compose_5` may form `M_meta` only through faithful copying, aggregation, or request-relative classification of preserved metadata, slot presence, conformance, applicability, statuses, obligations, dependency closure, and provenance.
+
+`Compose_5` may not introduce an arbitrary new proposition, enlarge a domain, strengthen a certificate type, upgrade a result status, suppress a completeness limitation, omit a transitive dependency, or attach a semantic interpretation not separately entailed by the upstream ledger.
+
+A heuristic artifact may be included in `Record_5`, but no substantive proposition asserted only by that artifact may be introduced into `Q_sem`.
+
+---
+
+### 7.7 T5 support derivations
+
+For each requested semantic conclusion `Q`, define a T5 derivation object:
+
+```text
+D_5(Q)
+```
+
+that records:
+
+- the upstream premises used;
+- the dependency-closure items used;
+- the permitted operation applied at each step;
+- every identity, coordinate, unit, gauge, model, or claim-map transformation;
+- every certificate-type and result-status transition;
+- the domain on which each step is valid;
+- and the resulting target semantic object.
+
+Define:
+
+```text
+Supports_5
+(
+  Γ_upstream,
+  U_5,
+  Q,
+  D_5(Q)
+)
+```
+
+to mean that `D_5(Q)`:
+
+1. begins only from eligible semantic premises in `Γ_upstream`;
+2. uses only operations permitted by Section 7.6;
+3. preserves all applicable assumptions, domains, identities, and certificate limitations;
+4. contains every transitive dependency required by the derivation;
+5. and terminates in `Q`.
+
+A requested semantic conclusion is supported by eligible upstream outputs precisely when there exists a valid derivation `D_5(Q)` satisfying `Supports_5`.
+
+---
+
+### Theorem 5 — Sound Request-Relative End-to-End Inference Composition
+
+Let `J` be the supplied interface-slot tuple and `R_5` the declared composition request.
+
+Assume:
+
+1. all mandatory slots are present;
+2. all mandatory interfaces are `CONFORMANT` and `APPLICABLE`;
+3. every output and obligation in `Used(J,R_5)` satisfies Section 4.6;
+4. the common composition domain `U_5` is certified nonempty;
+5. every applicable compatibility condition C1–C13 holds;
+6. `AuditPreserved_5(J,R_5,Record_5)` holds;
+7. and for every requested semantic conclusion `Q`, there exists a valid derivation `D_5(Q)` such that:
+
+```text
+Supports_5
+(
+  Γ_upstream,
+  U_5,
+  Q,
+  D_5(Q)
+)
+```
+
+Then:
+
+```text
+(J,R_5) ∈ Eligible_5
+```
+
+and:
+
+```text
+Evaluate_5(J,R_5)
+```
+
+returns `Record_5` containing:
+
+```text
+Cert_5
+=
+Compose_5(J,R_5)
+=
+(
+  Q_sem,
+  M_meta
+)
+```
+
+The certificate status is:
+
+```text
+COMPOSABLE
+```
+
+when every requested semantic conclusion is supported and no request-selected meta output is unresolved; or:
+
+```text
+COMPOSABLE_WITH_UNRESOLVED_OUTPUTS
+```
+
+when every requested semantic conclusion is supported, the request explicitly permits unresolved meta-status results, and one or more selected unresolved outputs are preserved only in `M_meta`.
+
+For every semantic conclusion:
+
+```text
+Q ∈ Q_sem
+```
+
+the support derivation is sound:
+
+```text
+Supports_5
+(
+  Γ_upstream,
+  U_5,
+  Q,
+  D_5(Q)
+)
+```
+
+and therefore:
+
+```text
+Γ_upstream ⊨_{U_5} Q
+```
+
+The meta component `M_meta` faithfully preserves the applicable interface-slot presence, conformance, applicability, metadata, statuses, obligations, request parameters, dependency closure, and provenance.
+
+Moreover, neither `Q_sem` nor `M_meta` introduces a stronger mathematical or meta-level claim than is separately established, faithfully preserved, validly weakened, or entailed by the consumed interfaces and declared request.
+
+If a compatible T4 interface is supplied and used, `Q_sem` may include only stability conclusions supported by eligible T4 outputs and valid derivations, while `M_meta` preserves the T4 slot presence, conformance, applicability, representation type, certificate type, result status, assumptions, domain, and provenance.
+
+If a compatible E0 interface is supplied and used, the requested scope may be raw-observation-to-report only on the E0-qualified domain.
+
+The theorem does not create new candidate, report, stability, truth, authenticity, integrity, probability, or reliability conclusions.
+
+## 8. Proof
+
+The proof is by request-relative, dependency-closed, sound, contract-preserving composition.
+
+### Step 1 — Interface-slot state and request-relative eligibility
+
+By assumption, all mandatory slots are present and their interfaces are conformant and applicable to `R_5`.
+
+Every output and obligation in the dependency-closed set `Used(J,R_5)` satisfies Section 4.6.
+
+Therefore no output used to support a requested semantic conclusion has status `FAILED`, `NOT_APPLICABLE`, `HEURISTIC`, or `UNRESOLVED`, and every used obligation has sufficient completeness.
+
+Any selected unresolved output permitted by the request is reserved for `M_meta` and is not used to support `Q_sem`.
+
+Any used optional output satisfies the same conclusion-specific eligibility requirements.
+
+---
+
+### Step 2 — Common scenario identity and domain
+
+All mandatory domains are subsets of the common scenario space `U_*`, with shared scenario identity.
+
+Any imported domain has already been connected to `U_*` through an injective, identity-preserving embedding.
+
+The certified nonempty set:
+
+```text
+U_5 ⊆ U_1 ∩ U_2 ∩ U_23 ∩ U_3
+```
+
+therefore contains scenarios on which every mandatory interface applies without collapsing distinct scenarios.
+
+---
+
+### Step 3 — Dependency closure
+
+By definition:
+
+```text
+Used(J,R_5)
+=
+DependencyClosure_J
+(
+  selected_outputs
+  ∪
+  required_obligations
+)
+```
+
+Therefore every transitive upstream output, assumption, mapping, coverage obligation, completeness obligation, provenance object, and optional dependency required by the request is included in the request-relative ledger.
+
+No requested conclusion can become eligible by omitting a required dependency.
+
+---
+
+### Step 4 — Identity of transferred objects
+
+By C2–C4:
+
+- theorem and interface versions are fixed;
+- T1 observations map to the intended T2 indices;
+- T2 branches and candidates map to C23 and T3 without identity loss;
+- and shared units and coordinates are compatible.
+
+Thus no consumed mathematical object changes identity merely by crossing an interface boundary.
+
+---
+
+### Step 5 — Candidate coverage and state refinement
+
+By C5 and C6, the T2, C23, and T3 models are identical where required or connected by an explicit conservative refinement, and every candidate outside `D_analysis` is covered by a permitted certified path.
+
+By C7:
+
+```text
+S_h^(23) ⊆ S_h^(2)
+```
+
+for every analyzed candidate.
+
+Therefore C23 cannot enlarge or silently redefine the T2-compatible state set.
+
+---
+
+### Step 6 — Preservation of report conclusions
+
+By C8 and C9, gauge meaning, claim maps, report maps, and resolution maps retain their declared semantics.
+
+T3 establishes its report-image sandwich or retained-domain certificate under its own assumptions.
+
+Since the permitted semantic composition operations do not change candidate accounting, refined state sets, mappings, or certificate bounds, every eligible requested T3 conclusion remains valid after composition.
+
+---
+
+### Step 7 — Target identity and valid weakening
+
+By C10, every output preserves the identity of its target semantic object or records the certified derivation from its source object.
+
+Every certificate-type and result-status pair is either preserved or transformed through an explicit valid weakening relation recorded in `Record_5`.
+
+By C11, unresolved or incomplete statuses are not silently converted into resolved statuses.
+
+By C12, all required assumptions remain attached.
+
+Therefore every semantic conclusion in `Q_sem` has strength no greater than the applicable upstream basis.
+
+---
+
+### Step 8 — Optional-interface isolation
+
+By C13, optional interfaces are isolated.
+
+If T4 is absent or unused, no T4 semantic conclusion is added, and its presence or absence may be recorded only in `M_meta`.
+
+If T4 is present, applicable, compatible, and used, eligible stability conclusions may enter `Q_sem`, while T4 status and provenance enter `M_meta`.
+
+If E0 is absent or unused, the earliest certified point remains the T1 measurement interface.
+
+If E0 is present, applicable, compatible, and used, provenance may extend to raw observations only on the E0-qualified domain.
+
+Failure of an unused optional output does not affect mandatory composition.
+
+---
+
+### Step 9 — Audit preservation and eligibility
+
+By assumption:
+
+```text
+AuditPreserved_5
+(
+  J,
+  R_5,
+  Record_5
+)
+```
+
+holds.
+
+Steps 1–8 establish every remaining eligibility condition in Section 7.2.
+
+Therefore:
+
+```text
+(J,R_5) ∈ Eligible_5
+```
+
+and:
+
+```text
+Cert_5 = Compose_5(J,R_5)
+```
+
+is defined.
+
+`Evaluate_5(J,R_5)` returns `Record_5` containing `Cert_5`.
+
+The certificate status is `COMPOSABLE` or `COMPOSABLE_WITH_UNRESOLVED_OUTPUTS` according to the theorem statement.
+
+---
+
+### Step 10 — Semantic soundness through support derivations
+
+Let:
+
+```text
+Q ∈ Q_sem
+```
+
+By assumption, there exists a valid support derivation:
+
+```text
+D_5(Q)
+```
+
+such that:
+
+```text
+Supports_5
+(
+  Γ_upstream,
+  U_5,
+  Q,
+  D_5(Q)
+)
+```
+
+The derivation begins from eligible upstream semantic premises, contains every transitive dependency, and uses only operations permitted by Section 7.6.
+
+Each permitted operation preserves semantic consequence on `U_5`.
+
+Therefore:
+
+```text
+Γ_upstream ⊨_{U_5} Q
+```
+
+---
+
+### Step 11 — Meta-status fidelity
+
+Every item in `M_meta` is formed only through faithful copying, aggregation, or request-relative classification of preserved interface-slot presence, conformance, applicability, metadata, statuses, obligations, dependency closure, and provenance.
+
+Therefore `M_meta` accurately records the applicable interface, completeness, unresolved-status, optional-interface, request, and provenance facts.
+
+A heuristic artifact may be faithfully transported in `Record_5`, but it cannot supply a substantive semantic conclusion in `Q_sem`.
+
+Thus `Cert_5` is both semantically sound and meta-status faithful.
+
+This proves the theorem. ∎
+
+## 9. Corollaries
+
+### Corollary 5.1 — Composition without T4
+
+If the mandatory T1, T2, C23, and T3 interfaces satisfy the theorem conditions for request `R_5` and no T4 interface is supplied, then `Evaluate_5(J,R_5)` returns `Record_5` containing a successful `Cert_5 = Compose_5(J,R_5)`.
+
+The meta component `M_meta` must state:
+
+```text
+stability interface: not supplied
+stability conclusion: not established
+```
+
+The absence of T4 does not invalidate valid T1–T3 conclusions.
+
+---
+
+### Corollary 5.2 — Composition with T4
+
+If a T4 interface is present, conformant, applicable, compatible, and used by `R_5`, then an eligible T4 stability conclusion may enter:
+
+```text
+Q_sem
+```
+
+Its representation type, certificate type, result status, assumptions, domain, and provenance enter:
+
+```text
+M_meta
+```
+
+The T4 conclusion remains limited to:
+
+- its declared perturbation domain;
+- its declared candidate domain;
+- its declared objective;
+- its declared report map;
+- and its declared gauge conditions.
+
+T4 does not alter T3 admissibility or closure unless a separate theorem explicitly establishes that relationship.
+
+### Corollary 5.3 — Conservative and unresolved upstream outputs
+
+A certified conservative semantic conclusion may enter:
+
+```text
+Q_sem
+```
+
+with its conservative certificate type and result status preserved or validly weakened.
+
+An unresolved output may enter only:
+
+```text
+M_meta
+```
+
+and only when the request permits unresolved meta-status preservation.
+
+Neither a conservative conclusion nor an unresolved output may be reported as exact without a separate proof.
+
+### Corollary 5.4 — Report closure with incomplete candidate-level classification
+
+Suppose T3 establishes exact report-level closure through a valid full-domain or retained-domain report-image certificate while candidate-level classification remains incomplete.
+
+Then T5 may preserve:
+
+```text
+Q_sem:
+report-level closure = certified
+```
+
+and:
+
+```text
+M_meta:
+candidate-level closure = not established
+```
+
+T5 must not collapse those statuses into one generic “resolved” label.
+
+### Corollary 5.5 — Certified-measurement-to-report scope
+
+Without a present, conformant, applicable, and used E0 interface, a valid T5 certificate establishes at most:
+
+```text
+certified-measurement-to-report composition
+```
+
+It does not certify preprocessing from raw recordings.
+
+### Corollary 5.6 — Raw-observation-to-report scope
+
+With a present, conformant, applicable, and used E0 interface, a T5 certificate may establish:
+
+```text
+certified raw-observation-to-report composition
+```
+
+only over the domain and transformations certified by E0.
+
+### Corollary 5.7 — Non-strengthening
+
+Let `Q` be any claim not established by T1, T2, C23, T3, optional T4, or optional E0.
+
+Then T5 does not establish `Q` solely because the interfaces compose validly.
+
+---
+
+## 10. Audit record and composition certificate
+
+### 10.1 Record and certificate distinction
+
+`Record_5` is the audit object returned by:
+
+```text
+Evaluate_5(J,R_5)
+```
+
+for every syntactically evaluable pair, including:
+
+```text
+COMPOSABLE
+COMPOSABLE_WITH_UNRESOLVED_OUTPUTS
+UNRESOLVED_EVALUATION
+NONCOMPOSABLE
+NOT_APPLICABLE
+```
+
+`Cert_5` is returned by:
+
+```text
+Compose_5(J,R_5)
+```
+
+only for pairs in `Eligible_5`.
+
+For an eligible pair `(J,R_5)`, `Evaluate_5(J,R_5)` contains:
+
+```text
+Cert_5
+=
+Compose_5(J,R_5)
+=
+(
+  Q_sem,
+  M_meta
+)
+```
+
+A missing, nonconformant, unresolved-applicability, non-applicable, failed, heuristic-dependent, insufficiently complete, or otherwise ineligible request produces `Record_5`, but not a successful `Cert_5`.
+
+---
+
+### 10.2 Required record fields
+
+`Record_5` must identify:
+
+```text
+record_id
+certificate_id_if_any
+T5_document_id
+T5_version
+composition_request_id
+requested_scope
+requested_semantic_conclusions
+requested_meta_statuses
+selected_outputs
+required_obligations
+unresolved_policy
+composition_domain
+interface_slot_states
+interface_presence
+interface_conformance
+interface_applicability
+optional_interfaces
+interface_versions
+dependency_closure
+scenario_identity_alignment
+object_identity_mappings
+unit_and_coordinate_mappings
+model_and_constraint_mappings
+candidate_domain
+coverage_certificate
+claim_and_resolution_maps
+assumption_ledger
+representation_type_ledger
+certificate_type_ledger
+certificate_status_transition_ledger
+output_result_status_ledger
+obligation_completeness_ledger
+support_derivations
+semantic_conclusions
+meta_statuses
+report_closure_status
+candidate_closure_status
+state_set_closure_status
+stability_status
+heuristic_artifacts
+unresolved_items
+non_applicable_items
+failure_items
+audit_preservation_status
+provenance
+composition_status
+```
+
+The record may be human-readable or machine-readable, provided the mathematical meaning is preserved.
+
+---
+
+### 10.3 Composition scope field
+
+The requested scope must be one of:
+
+```text
+CERTIFIED_MEASUREMENT_TO_REPORT
+```
+
+or, when E0 is present, conformant, applicable, used, and valid:
+
+```text
+CERTIFIED_RAW_OBSERVATION_TO_REPORT
+```
+
+The scope must not be inferred from the theorem title alone.
+
+---
+
+### 10.4 Interface-slot presence, conformance, and applicability fields
+
+Each interface slot must receive one presence value:
+
+```text
+PRESENT
+NOT_SUPPLIED
+MISSING_REQUIRED
+```
+
+where `NOT_SUPPLIED` applies only to optional slots.
+
+Every present interface must receive one conformance value:
+
+```text
+CONFORMANT
+NONCONFORMANT
+NOT_EVALUATED
+```
+
+Every present conformant interface must receive one request-relative applicability value:
+
+```text
+APPLICABLE
+NOT_APPLICABLE
+UNRESOLVED
+```
+
+A missing mandatory slot receives `MISSING_REQUIRED` and causes `NONCOMPOSABLE`.
+
+An optional absent slot receives `NOT_SUPPLIED`.
+
+A present interface may be conformant but non-applicable to `R_5`.
+
+Unresolved mandatory applicability yields `UNRESOLVED_EVALUATION`, not a successful certificate.
+
+---
+
+### 10.5 Per-output result-status and obligation-completeness fields
+
+Every output must separately receive one result status:
+
+```text
+EXACT
+CERTIFIED_INNER
+CERTIFIED_OUTER
+CERTIFIED_TWO_SIDED
+CONSERVATIVE
+HEURISTIC
+UNRESOLVED
+FAILED
+NOT_APPLICABLE
+```
+
+Every declared obligation must separately receive one completeness status:
+
+```text
+COMPLETE
+CERTIFIED_PARTIAL
+INCOMPLETE
+UNRESOLVED
+NOT_APPLICABLE
+```
+
+Successful-certificate eligibility is evaluated relative to the dependency-closed set:
+
+```text
+Used(J,R_5)
+```
+
+including used mandatory and used optional outputs, obligations, assumptions, mappings, and provenance dependencies.
+
+A heuristic artifact may be recorded but may not appear as a theorem-certified semantic conclusion.
+
+---
+
+### 10.6 Semantic, meta, and derivation fields
+
+The record must distinguish:
+
+```text
+semantic_conclusions = Q_sem
+```
+
+from:
+
+```text
+meta_statuses = M_meta
+```
+
+and must record:
+
+```text
+support_derivations
+=
+{
+  D_5(Q) :
+  Q ∈ Q_sem
+}
+```
+
+Semantic conclusions are subject to:
+
+```text
+Γ_upstream ⊨_{U_5} Q
+```
+
+for each `Q ∈ Q_sem`.
+
+Meta statuses are subject to faithful-preservation requirements rather than scenario-level semantic entailment.
+
+---
+
+### 10.7 Request-relative evaluation status
+
+`Evaluate_5(J,R_5)` assigns one status:
+
+```text
+COMPOSABLE
+```
+
+when every requested semantic conclusion has a valid support derivation and no request-selected meta output is unresolved;
+
+```text
+COMPOSABLE_WITH_UNRESOLVED_OUTPUTS
+```
+
+when every requested semantic conclusion has a valid support derivation, the request explicitly permits unresolved meta-status results, and unresolved selected outputs are preserved only in `M_meta`;
+
+```text
+UNRESOLVED_EVALUATION
+```
+
+when successful-composition eligibility cannot yet be determined, including when mandatory applicability, common-domain nonemptiness, version compatibility, required identity mapping, or required dependency closure cannot yet be certified;
+
+```text
+NONCOMPOSABLE
+```
+
+when a definite incompatibility, missing required slot, nonconformance, failed used output, heuristic-dependent requested conclusion, insufficiently complete obligation, invalid support derivation, or prohibited unresolved dependency is established;
+
+and:
+
+```text
+NOT_APPLICABLE
+```
+
+when the requested scope or common domain is definitively outside the applicable domain.
+
+Only `COMPOSABLE` and `COMPOSABLE_WITH_UNRESOLVED_OUTPUTS` permit a successful `Cert_5`.
+
+A composable request need not produce a unique or resolved inference.
+
+---
+
+### 10.8 Stability status
+
+The stability field must distinguish:
+
+```text
+NOT_REQUESTED
+NOT_SUPPLIED
+CERTIFIED
+WITHHELD
+FAILED
+```
+
+No stability claim is implied by `COMPOSABLE`.
+
+## 11. Failure and non-composability conditions
+
+A requested composition may be composable, unresolved at evaluation time, noncomposable, or non-applicable. Unresolved outputs may remain present only as request-permitted meta-status results under `COMPOSABLE_WITH_UNRESOLVED_OUTPUTS`; unresolved eligibility is reported as `UNRESOLVED_EVALUATION`.
+
+Examples include:
+
+### F1 — Missing mandatory interface
+
+One of T1, T2, C23, or T3 is absent.
+
+### F2 — Invalid mandatory interface
+
+A required theorem or bridge interface is missing, `NONCONFORMANT`, or `NOT_APPLICABLE` to the request; a used mandatory or optional output has status `FAILED`, `NOT_APPLICABLE`, or `HEURISTIC`; or a used obligation lacks sufficient completeness for the requested semantic conclusion.
+
+### F3 — Version incompatibility
+
+Interfaces use incompatible theorem versions without a certified translation.
+
+### F4 — Object mismatch
+
+An observation, branch, candidate, state, claim, or report object changes identity across interfaces.
+
+### F5 — Unit or coordinate mismatch
+
+Shared quantities use incompatible units, coordinates, sign conventions, clock scales, or frequency coordinates.
+
+### F6 — Model substitution
+
+A downstream stage changes the propagation, clock, geometry, calibration, path, or branch model without an explicit certified mapping.
+
+### F7 — Candidate-domain omission
+
+Candidates are omitted without a certificate path sufficient for T3.
+
+### F8 — Silent pruning
+
+A candidate is pruned because an optimizer failed, a sample was absent, an inner approximation was empty, or a tolerance was exceeded without a valid emptiness or report-preserving certificate.
+
+### F9 — State-set substitution
+
+A point estimate or sample cloud is used in place of the complete compatible set without an exhaustiveness proof.
+
+### F10 — Gauge mismatch
+
+Gauge-fixed coordinates are compared or composed as though they were unique physical states.
+
+### F11 — Claim-map or resolution mismatch
+
+T3 and optional T4 use different claim or report semantics without a certified mapping.
+
+### F12 — Certificate-type or result-status upgrade
+
+A conservative, heuristic, unresolved, or one-sided result is reported as exact.
+
+### F13 — Completeness suppression
+
+An incomplete search, unresolved candidate, or failed certificate is omitted from the composed status.
+
+### F14 — Assumption suppression
+
+A required upstream assumption is removed from the composed assumption ledger.
+
+### F15 — Unsupported stability claim
+
+A T4 conclusion is reported when T4 is absent, incompatible, or outside its perturbation domain.
+
+### F16 — Unsupported raw-observation scope
+
+Raw-observation-to-report composition is claimed without a valid E0 interface.
+
+### F17 — Request-support mismatch
+
+A requested semantic conclusion is not supported by the selected eligible outputs, or the request requires unresolved meta-status while prohibiting unresolved preservation.
+
+### F18 — Invalid or missing support derivation
+
+A requested semantic conclusion lacks a valid `D_5(Q)`, uses a prohibited operation, omits a transitive dependency, or fails `Supports_5`.
+
+### F19 — Unresolved evaluation
+
+Mandatory applicability, common-domain nonemptiness, version compatibility, required identity mapping, or dependency closure cannot yet be certified.
+
+### F20 — Empty composition domain
+
+The common mandatory domain is certified empty or the request is definitively outside the applicable domain.
+
+---
+
+## 12. Claims not established
+
+Theorem 5 does not establish:
+
+- that any candidate is physically true;
+- that any source is authentic;
+- that any recording is unedited;
+- that evidence integrity is satisfied;
+- that a unique candidate exists;
+- that a unique physical state exists;
+- that an exact state set has been computed;
+- that report-level closure implies candidate-level closure;
+- that a preferred objective minimizer is admissible or true;
+- that a stable result is globally identifiable;
+- that adding witnesses improves complete inference reliability;
+- that a score is a calibrated probability;
+- that the underlying model is empirically correct;
+- that an implementation is correct;
+- that computation terminates efficiently;
+- or that the result is forensically or legally admissible.
+
+---
+
+## 13. Relationship to AIRS
+
+AIRS may provide:
+
+- procedural context;
+- audit requirements;
+- event-association records;
+- calibration records;
+- branch declarations;
+- integrity-status reporting;
+- and inference-classification terminology.
+
+AIRS is not automatically a mathematical premise of T5.
+
+Any AIRS object used as a theorem input must enter through a declared mathematical interface whose assumptions, units, coordinates, uncertainty, and semantics are explicit.
+
+T5 composition status must remain separate from:
+
+- AIRS evidence-integrity status;
+- AIRS acquisition-history status;
+- and legal or operational interpretation.
+
+---
+
+## 14. Implementation-profile note
+
+The theorem does not standardize software architecture.
+
+An implementation may use non-normative bookkeeping objects such as:
+
+```text
+H_cert
+H_work
+```
+
+to track certified and unresolved computation.
+
+Such objects are not T2 or T3 theorem interfaces unless formally incorporated into those documents.
+
+If used, the implementation profile must define them explicitly and preserve the theorem-defined meanings of:
+
+```text
+H_raw
+Ĥ_raw
+H_cons
+Ĥ_cons
+S_h^(2)
+S_h^(23)
+C_rep
+```
+
+Software conformance, serialization, APIs, orchestration, security, storage, and performance requirements should be specified in a separate implementation or composition-conformance document.
+
+They are not part of the principal mathematical theorem.
+
+---
+
+## 15. Validation requirements
+
+Before T5 is treated as independently validated, the project should provide:
+
+1. an independent mathematical review of the principal theorem and proof;
+2. a machine-readable interface registry for T1–T4, AWC-IF-C23 version 0.1, and E0;
+3. unit and dimensional-consistency checks;
+4. candidate and branch identity tests;
+5. representation-type, certificate-type, result-status, valid-weakening, and directional-containment tests;
+6. tests that unresolved and incomplete statuses cannot be silently upgraded;
+7. composition tests with and without T4;
+8. composition tests with and without E0;
+9. negative tests for every failure condition in Section 11;
+10. report-level versus candidate-level closure tests;
+11. version-compatibility and migration tests;
+12. reproducible request-specific `Evaluate_5(J,R_5)` audit-record examples and `Compose_5(J,R_5)` certificate examples;
+13. tests proving that heuristic artifacts cannot become theorem-certified conclusions;
+14. scenario-identity and injective-domain-alignment tests;
+15. tests separating semantic entailment from meta-status preservation;
+16. request-relative eligibility and selected-output tests;
+17. independent conformance tests for `AWC-IF-C23` version 0.1;
+18. used-mandatory versus used-optional dependency tests;
+19. independent presence, conformance, and applicability tests;
+20. interface-slot tests for present, missing-required, and not-supplied cases;
+21. dependency-closure and omitted-transitive-dependency tests;
+22. unresolved-evaluation classification tests;
+23. `AuditPreserved_5` predicate tests;
+24. target-identity and certified-derivation tests;
+25. and `Supports_5` derivation-soundness tests.
+
+Passing implementation tests would validate an implementation profile, not the theorem by itself.
+
+---
+
+## 16. Revision history
+
+| Version | Date | Summary |
+|---|---:|---|
+| 3.6.0-beta1 | 2026-07-12 | Removed the stale combined conformance model; introduced interface slots so absent interfaces are represented without nonexistent interface objects; made `Used(J,R_5)` the least dependency-closed support set; added `UNRESOLVED_EVALUATION`; extracted the `AuditPreserved_5` predicate; clarified target-semantic-object preservation and certified derivation; introduced `D_5(Q)` and `Supports_5`; made optional assumptions request-relative; corrected E0 scope corollaries; and expanded record, failure, proof, validation, and summary requirements. |
+| 3.5.0-beta1 | 2026-07-12 | Generalized `Used(R_5)` to request-relative `Used(J,R_5)` over mandatory and optional interfaces; added `Used_mand` and `Used_opt`; required used optional outputs to satisfy conclusion-specific eligibility; separated interface presence, conformance, and applicability; introduced recorded certificate-type/result-status weakening relations; limited the principal theorem to successful certificate statuses; moved noncomposable and non-applicable outcomes to `Evaluate_5`; clarified T4, conservative, unresolved, and report-closure corollaries; and updated record fields, failures, validation requirements, metadata, and summary terminology. |
+| 3.4.0-beta1 | 2026-07-12 | Parameterized evaluation and composition by a declared request `R_5`; defined request-relative `Used(R_5)` and `Eligible_5`; separated theorem-certified semantic conclusions `Q_sem` from faithful meta-status preservation `M_meta`; restricted scenario-level entailment to semantic conclusions; made unresolved outputs eligible only as request-permitted meta-status results; aligned C10 and F2 with per-output and per-obligation typing; added request-relative composition statuses and failure conditions; and moved the versioned C23 contract to a separate repository interface file. |
+| 3.3.0-beta1 | 2026-07-12 | Separated the total audit evaluator `Evaluate_5` from the successful composition operator `Compose_5`; removed C14 self-reference; prohibited heuristic artifacts from serving as theorem-certified premises or conclusions; changed representation, certificate, result-status, and completeness fields to output- or obligation-indexed maps; required a shared scenario space with injective identity-preserving alignment; defined semantic entailment on `U_5`; restricted composition to explicit meaning-preserving operations; corrected mandatory-interface absence, unresolved-output, failure, validation, summary, and supersession terminology. |
+| 3.2.0-beta1 | 2026-07-12 | Updated the general interface tuple to separate certificate type, conformance, result status, and completeness; removed unresolved status from the certificate-type taxonomy; separated set, scalar, and heuristic representation classes; added explicit successful-certificate eligibility rules; removed circularity from the principal theorem by proving that eligible inputs yield `Record_5` with successful `Cert_5`; strengthened candidate-equivalence requirements to preserve compatible-state and report semantics; corrected remaining analysis-domain, T4, implementation-profile, summary, and supersession terminology. |
+| 3.1.0-beta1 | 2026-07-12 | Added the versioned AWC-IF-C23 bridge; distinguished `S_h^(2)` from the refined `S_h^(23)` and required `S_h^(23) ⊆ S_h^(2)`; replaced the linear exactness hierarchy with typed certificate classes; separated interface conformance from result status; introduced well-typed domain embeddings into a common scenario space; generalized the analysis domain through a coverage certificate; defined `Compose_5`, `Record_5`, and successful `Cert_5`; and strengthened the principal result to a soundness and non-strengthening theorem. |
+| 3.0.0-beta1 | 2026-07-12 | Rewrote T5 as the capstone composition and contract-preservation theorem; made T1–T3 mandatory and T4 optional; introduced the explicit C23 compatibility bridge; removed T5’s former pre-T3 candidate-state construction role; distinguished certified-measurement-to-report from raw-observation-to-report composition; aligned notation with T1–T4; added exactness, completeness, optional-interface, and provenance conditions; and separated implementation conformance from the mathematical theorem. |
+| 2.0.0-beta1 | 2026-07-12 | Prior mathematical draft combining candidate-state construction, recovery objects, composition, reporting, and conformance requirements. Superseded by version 3.0.0-beta1. |
+
+---
+
+## 17. Summary
+
+T5 certifies request-relative composition; it does not perform the upstream inference.
+
+The mandatory chain is:
+
+```text
+T1 → T2 → C23 → T3 → T5
+```
+
+with:
+
+```text
+T4 optional
+E0 optional
+```
+
+C23 is a separately versioned required interface:
+
+```text
+Interfaces/
+AWC-IF-C23_Candidate-State_Compatibility_Evaluation.md
+```
+
+The interface tuple is represented by slots so absent interfaces are auditable without being modeled as nonexistent interface objects:
+
+```text
+J
+=
+(
+  Slot_1,
+  Slot_2,
+  Slot_23,
+  Slot_3,
+  Slot_4,
+  Slot_0
+)
+```
+
+For every evaluated pair:
+
+```text
+Evaluate_5(J,R_5) → Record_5
+```
+
+For an eligible pair:
+
+```text
+Compose_5
+:
+Eligible_5
+→
+Cert_5
+```
+
+where:
+
+```text
+Cert_5
+=
+(
+  Q_sem,
+  M_meta
+)
+```
+
+The request support set is dependency-closed:
+
+```text
+Used(J,R_5)
+=
+DependencyClosure_J
+(
+  selected_outputs
+  ∪
+  required_obligations
+)
+```
+
+so every transitive output, assumption, mapping, completeness obligation, and provenance dependency is preserved.
+
+Every semantic conclusion `Q ∈ Q_sem` requires a valid derivation:
+
+```text
+D_5(Q)
+```
+
+satisfying:
+
+```text
+Supports_5
+(
+  Γ_upstream,
+  U_5,
+  Q,
+  D_5(Q)
+)
+```
+
+and therefore:
+
+```text
+Γ_upstream ⊨_{U_5} Q
+```
+
+`M_meta` faithfully preserves:
+
+- interface-slot presence;
+- interface conformance;
+- interface applicability;
+- result statuses;
+- obligation completeness;
+- unresolved outputs;
+- optional-interface status;
+- request parameters;
+- dependency closure;
+- audit preservation;
+- and provenance.
+
+A successful certificate preserves the identity of each target semantic object or records its certified derivation from the source object. Certificate types and result statuses are preserved or validly weakened only through explicit recorded transitions.
+
+Heuristic artifacts may be preserved in `Record_5`, but they do not become theorem-certified semantic conclusions.
+
+Unresolved outputs may be preserved only as request-permitted meta-status results and may not support substantive semantic conclusions.
+
+`Evaluate_5` distinguishes:
+
+```text
+COMPOSABLE
+COMPOSABLE_WITH_UNRESOLVED_OUTPUTS
+UNRESOLVED_EVALUATION
+NONCOMPOSABLE
+NOT_APPLICABLE
+```
+
+Only the first two statuses permit a successful `Cert_5`.
+
+T5 establishes nothing stronger than the interfaces it composes. All other evaluated requests produce only `Record_5`, not a successful `Cert_5`.
